@@ -1,0 +1,7 @@
+requests
+ruamel.yaml
+pandas
+pyppeteer
+bs4
+openpyxl
+colorlog

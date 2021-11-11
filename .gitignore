@@ -1,0 +1,10 @@
+*.yml
+!config.yml
+*.token
+*.zip
+**/__pycache__
+/.idea/
+venv/
+
+
+

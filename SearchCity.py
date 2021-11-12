@@ -78,3 +78,4 @@ if __name__ == '__main__':
     else:
         logger.error('无搜索结果')
         sys.exit(1)
+

@@ -2,6 +2,8 @@
 !config.yml
 *.token
 *.zip
+*.log
+*.log.*
 **/__pycache__
 /.idea/
 venv/

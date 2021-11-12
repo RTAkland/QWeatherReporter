@@ -554,7 +554,7 @@ def check_config():
 
 
 if __name__ == '__main__':
-    config_name = 'config_owner.yml'
+    config_name = 'config.yml'
 
     date_format = '%H:%M:%S'
     info_format_console = '%(log_color)s[%(asctime)s] |%(levelname)-8s |%(lineno)-3s |%(message)s'

@@ -553,7 +553,7 @@ def checkConfig():
 
 
 if __name__ == '__main__':
-    my_config_file = 'config_owner.yml'
+    my_config_file = 'config.yml'
 
     formatter = ColoredFormatter("%(log_color)s[%(asctime)s] |%(levelname)-8s |%(lineno)-3s |%(message)s",
                                  datefmt='%H:%M:%S',

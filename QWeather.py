@@ -14,6 +14,7 @@ import requests
 import argparse
 import multiprocessing
 import logging.handlers
+
 from ruamel.yaml import YAML
 from email.header import Header
 from email.mime.text import MIMEText
@@ -104,7 +105,6 @@ class SendWeatherMail:
         date = [day_1['fxDate'][5:], day_2['fxDate'][5:], day_3['fxDate'][5:], day_4['fxDate'][5:], day_5['fxDate'][5:],
                 day_6['fxDate'][5:],
                 day_7['fxDate'][5:]]
-        print(date)
         day_weather = [day_1['textDay'], day_2['textDay'], day_3['textDay'], day_4['textDay'], day_5['textDay'],
                        day_6['textDay'], day_7['textDay']]
         night_weather = [day_1['textNight'], day_2['textNight'], day_3['textNight'], day_4['textNight'],
@@ -575,8 +575,10 @@ if __name__ == '__main__':
     logger.setLevel(logging.DEBUG)
     ConsoleLogger = logging.StreamHandler()  # 输出到终端
     ConsoleLogger.setFormatter(formatter)
-    FileLogger = logging.handlers.RotatingFileHandler(filename=f'./logs/latest.log', maxBytes=102400,
-                                                      backupCount=5)  # 输出到文件
+    log_name = time.strftime('%Y-%m-%d-%H')  # 一小时内日志文件都是一个
+    FileLogger = logging.handlers.RotatingFileHandler(filename=f'./logs/{log_name}.log',
+                                                      maxBytes=5000,
+                                                      backupCount=5)
     FileLogger.setFormatter(formatter_file)
     logger.addHandler(ConsoleLogger)
     logger.addHandler(FileLogger)
@@ -600,7 +602,7 @@ if __name__ == '__main__':
     logger.info(f'{language["statement_3"]}')
     logger.info(f'{language["statement_4"]}\n')
 
-    # 使用本地网络进行请求. 这都得益于Python urllib3的神奇"特性".
+    # 使用本地网络进行请求
     session = requests.Session()
     session.trust_env = False
 
@@ -611,8 +613,7 @@ if __name__ == '__main__':
                         help='Some operations for test.',
                         choices=['free',
                                  'dev',
-                                 'warning']
-                        )
+                                 'warning'])
     arg_test = parser.parse_args().test
     if arg_test:
         if arg_test == 'dev':

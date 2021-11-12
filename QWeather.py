@@ -24,7 +24,7 @@ from email.mime.multipart import MIMEMultipart
 
 class SendWeatherMail:
     def __init__(self):
-        with open(my_config_file, 'r', encoding='utf-8') as config_f:
+        with open(config_name, 'r', encoding='utf-8') as config_f:
             self.config = YAML().load(config_f)
         with open('resource/type_warning.json', 'r', encoding='utf-8') as type_f:
             self.type_name = json.loads(type_f.read())
@@ -49,10 +49,13 @@ class SendWeatherMail:
         if self.icon_style not in self.style_list:
             self.icon_style = 'style1'
 
-        self.Dev_Link = f'https://devapi.qweather.com/v7/weather/7d?location=' \
+        self.dev_url = f'https://devapi.qweather.com/v7/weather/7d?location=' \
+                       f'{self.location}&key={self.key}&unit={self.unit}&lang={self.lang}'
+        self.free_url = f'https://devapi.qweather.com/v7/weather/3d?location=' \
                         f'{self.location}&key={self.key}&unit={self.unit}&lang={self.lang}'
-        self.Free_Link = f'https://devapi.qweather.com/v7/weather/3d?location=' \
-                         f'{self.location}&key={self.key}&unit={self.unit}&lang={self.lang}'
+        self.warning_url = f'https://devapi.qweather.com/v7/warning/now?location=' \
+                           f'{self.location}&key={self.key}&unit={self.unit}&lang={self.lang}'
+        self.headers = {'Accept-Encoding': 'gzip, deflate'}
 
         self.message = MIMEMultipart('related')
         self.message['From'] = Header('HeWeatherReporter')  # 发件人名称
@@ -64,7 +67,7 @@ class SendWeatherMail:
         else:
             self.smtp = smtplib.SMTP(self.server, self.port)  # 登录邮箱服务器 不使用SSL连接
 
-    def Dev_mode(self):
+    def dev_mode(self):
         """
         [全七天] | date: 日期 (1-7)
         [全七天] | day_weather: 白天天气 (1-7)
@@ -84,7 +87,7 @@ class SendWeatherMail:
         [第一天] | vis: 能见度 (1)
         :return: None
         """
-        r_day = session.get(self.Dev_Link, headers={'Accept-Encoding': 'gzip'})
+        r_day = session.get(self.dev_url, headers=self.headers)
 
         weather_day_text = json.loads(r_day.text)  # 使用json加载数据
         logger.info(f'{language["request_result_weather"]}:{r_day}')
@@ -98,9 +101,10 @@ class SendWeatherMail:
         day_6 = weather_day_text['daily'][5]
         day_7 = weather_day_text['daily'][6]
 
-        date = [day_1['fxDate'][2:], day_2['fxDate'][2:], day_3['fxDate'][2:], day_4['fxDate'][2:], day_5['fxDate'][2:],
-                day_6['fxDate'][2:],
-                day_7['fxDate'][2:]]
+        date = [day_1['fxDate'][5:], day_2['fxDate'][5:], day_3['fxDate'][5:], day_4['fxDate'][5:], day_5['fxDate'][5:],
+                day_6['fxDate'][5:],
+                day_7['fxDate'][5:]]
+        print(date)
         day_weather = [day_1['textDay'], day_2['textDay'], day_3['textDay'], day_4['textDay'], day_5['textDay'],
                        day_6['textDay'], day_7['textDay']]
         night_weather = [day_1['textNight'], day_2['textNight'], day_3['textNight'], day_4['textNight'],
@@ -146,44 +150,44 @@ class SendWeatherMail:
             <tr>
                 <!--日期 天气 最低 最高/Date Weather LowestTemp HighestTemp-->
                 <td>{date[0]}</td>
-                <td>{day_weather[0]}<img src="cid:img1" width="20" alt="">/{night_weather[0]}<img src="cid:img2" width="20" alt=""></td>
-                <td>{temperature_min[0]}℃</td>
+                <td>{day_weather[0]}<img src="cid:img1" width="20" alt="">/{night_weather[0]}<img src="cid:img2" 
+                width="20" alt=""></td> <td>{temperature_min[0]}℃</td> 
                 <td>{temperature_max[0]}℃</td>
             </tr>
             <tr>
                 <td>{date[1]}</td>
-                <td>{day_weather[1]}<img src="cid:img3" width="20" alt="">/{night_weather[1]}<img src="cid:img4" width="20" alt=""></td>
-                <td>{temperature_min[1]}℃</td>
+                <td>{day_weather[1]}<img src="cid:img3" width="20" alt="">/{night_weather[1]}<img src="cid:img4" 
+                width="20" alt=""></td> <td>{temperature_min[1]}℃</td> 
                 <td>{temperature_max[1]}℃</td>
             </tr>
                 <tr>
                 <td>{date[2]}</td>
-                <td>{day_weather[2]}<img src="cid:img5" width="20" alt="">/{night_weather[2]}<img src="cid:img6" width="20" alt=""></td>
-                <td>{temperature_min[2]}℃</td>
+                <td>{day_weather[2]}<img src="cid:img5" width="20" alt="">/{night_weather[2]}<img src="cid:img6" 
+                width="20" alt=""></td> <td>{temperature_min[2]}℃</td> 
                 <td>{temperature_max[2]}℃</td>
             </tr>
                 <tr>
                 <td>{date[3]}</td>
-                <td>{day_weather[3]}<img src="cid:img7" width="20" alt="">/{night_weather[3]}<img src="cid:img8" width="20" alt=""></td>
-                <td>{temperature_min[3]}℃</td>
+                <td>{day_weather[3]}<img src="cid:img7" width="20" alt="">/{night_weather[3]}<img src="cid:img8" 
+                width="20" alt=""></td> <td>{temperature_min[3]}℃</td> 
                 <td>{temperature_max[3]}℃</td>
             </tr>
                 <tr>
                 <td>{date[4]}</td>
-                <td>{day_weather[4]}<img src="cid:img9" width="20" alt="">/{night_weather[4]}<img src="cid:img10" width="20" alt=""></td>
-                <td>{temperature_min[4]}℃</td>
+                <td>{day_weather[4]}<img src="cid:img9" width="20" alt="">/{night_weather[4]}<img src="cid:img10" 
+                width="20" alt=""></td> <td>{temperature_min[4]}℃</td> 
                 <td>{temperature_max[4]}℃</td>
             </tr>
                 <tr>
                 <td>{date[5]}</td>
-                <td>{day_weather[5]}<img src="cid:img11" width="20" alt="">/{night_weather[5]}<img src="cid:img12" width="20" alt=""></td>
-                <td>{temperature_min[5]}℃</td>
+                <td>{day_weather[5]}<img src="cid:img11" width="20" alt="">/{night_weather[5]}<img src="cid:img12" 
+                width="20" alt=""></td> <td>{temperature_min[5]}℃</td> 
                 <td>{temperature_max[5]}℃</td>
             </tr>
                 <tr>
                 <td>{date[6]}</td>
-                <td>{day_weather[6]}<img src="cid:img13" width="20" alt="">/{night_weather[6]}<img src="cid:img14" width="20" alt=""></td>
-                <td>{temperature_min[6]}℃</td>
+                <td>{day_weather[6]}<img src="cid:img13" width="20" alt="">/{night_weather[6]}<img src="cid:img14" 
+                width="20" alt=""></td> <td>{temperature_min[6]}℃</td> 
                 <td>{temperature_max[6]}℃</td>
             </tr>
         </table>
@@ -271,8 +275,8 @@ class SendWeatherMail:
             sys.exit(1)
 
     # 免费版本
-    def Free_mode(self):
-        f_request = session.get(self.Free_Link, headers={'Accept-Encoding': 'gzip'})
+    def free_mode(self):
+        f_request = session.get(self.free_url, headers=self.headers)
         f_weather = json.loads(f_request.text)
 
         logger.info(f'{language["request_result_weather"]}:{f_request}')
@@ -281,7 +285,7 @@ class SendWeatherMail:
         day_2 = f_weather['daily'][1]
         day_3 = f_weather['daily'][2]
 
-        date = [day_1['fxDate'], day_2['fxDate'], day_2['fxDate']]
+        date = [day_1['fxDate'][5:], day_2['fxDate'][5:], day_2['fxDate'][5:]]
         day_weather = [day_1['textDay'], day_2['textDay'], day_2['textDay']]
         night_weather = [day_1['textNight'], day_2['textNight'], day_2['textNight']]
         temperature_max = [day_1['tempMax'], day_2['tempMax'], day_3['tempMax']]
@@ -321,20 +325,20 @@ class SendWeatherMail:
             <tr>
                 <!--日期 天气 最低 最高/Date Weather LowestTemp HighestTemp-->
                 <td>{date[0]}</td>
-                <td>{day_weather[0]}<img src="cid:img1" width="20" alt="">/{night_weather[0]}<img src="cid:img2" width="20" alt=""></td>
-                <td>{temperature_min[0]}℃</td>
+                <td>{day_weather[0]}<img src="cid:img1" width="20" alt="">/{night_weather[0]}<img src="cid:img2" 
+                width="20" alt=""></td> <td>{temperature_min[0]}℃</td> 
                 <td>{temperature_max[0]}℃</td>
             </tr>
             <tr>
                 <td>{date[1]}</td>
-                <td>{day_weather[1]}<img src="cid:img3" width="20" alt="">/{night_weather[1]}<img src="cid:img4" width="20" alt=""></td>
-                <td>{temperature_min[1]}℃</td>
+                <td>{day_weather[1]}<img src="cid:img3" width="20" alt="">/{night_weather[1]}<img src="cid:img4" 
+                width="20" alt=""></td> <td>{temperature_min[1]}℃</td> 
                 <td>{temperature_max[1]}℃</td>
             </tr>
                 <tr>
                 <td>{date[2]}</td>
-                <td>{day_weather[2]}<img src="cid:img5" width="20" alt="">/{night_weather[2]}<img src="cid:img6" width="20" alt=""></td>
-                <td>{temperature_min[2]}℃</td>
+                <td>{day_weather[2]}<img src="cid:img5" width="20" alt="">/{night_weather[2]}<img src="cid:img6" 
+                width="20" alt=""></td> <td>{temperature_min[2]}℃</td> 
                 <td>{temperature_max[2]}℃</td>
             </tr>
         </table>
@@ -404,14 +408,14 @@ class SendWeatherMail:
             self.message.attach(MyImage)
             image_count += 1
 
-            with open('./resource/extra-icon/sunrise.png', 'rb') as sr_f:
-                sunrise_img = MIMEImage(sr_f.read())
-                sunrise_img.add_header('Content-ID', 'sunrise')
-                self.message.attach(sunrise_img)
-            with open('./resource/extra-icon/sunset.png', 'rb') as ss_f:
-                sunset_img = MIMEImage(ss_f.read())
-                sunset_img.add_header('Content-ID', 'sunset')
-                self.message.attach(sunset_img)
+        with open('./resource/extra-icon/sunrise.png', 'rb') as sr_f:
+            sunrise_img = MIMEImage(sr_f.read())
+            sunrise_img.add_header('Content-ID', 'sunrise')
+            self.message.attach(sunrise_img)
+        with open('./resource/extra-icon/sunset.png', 'rb') as ss_f:
+            sunset_img = MIMEImage(ss_f.read())
+            sunset_img.add_header('Content-ID', 'sunset')
+            self.message.attach(sunset_img)
 
         try:
             self.smtp.login(self.sender, self.password)
@@ -437,8 +441,7 @@ class SendWeatherMail:
         如果不为空则单独发送一封邮件
         :return:
         """
-        API_url = f'https://devapi.qweather.com/v7/warning/now?location={self.location}&key={self.key}'
-        r = session.get(API_url, headers={'Accept-Encoding': 'gzip'}).text
+        r = session.get(self.warning_url, headers=self.headers).text
         data = json.loads(r)
 
         logger.info(f'{language["request_result_warning"]}:{data["code"]}')
@@ -510,7 +513,7 @@ class SendWeatherMail:
                 sys.exit(1)
 
 
-def loopCheck(mode: str, time_list: list):
+def loop_check(mode: str, time_list: list):
     """
     循环检测时间如果本地时间等于配置文件内填写的时间则发送一封天气信息的邮件
     :return:
@@ -520,7 +523,7 @@ def loopCheck(mode: str, time_list: list):
             local_time = time.strftime("%H:%M", time.localtime())
             time.sleep(1)
             if local_time in time_list:
-                SendWeatherMail().Dev_mode()
+                SendWeatherMail().dev_mode()
                 logger.info(f'{language["mail_succeed"]}')
                 logger.info(f'{language["wait_seconds"]}')
                 time.sleep(61)
@@ -529,13 +532,13 @@ def loopCheck(mode: str, time_list: list):
             local_time = time.strftime("%H:%M", time.localtime())
             time.sleep(1)
             if local_time in time_list:
-                SendWeatherMail().Free_mode()
+                SendWeatherMail().free_mode()
                 logger.info(f'{language["mail_succeed"]}')
                 logger.info(f'{language["wait_seconds"]}')
                 time.sleep(61)
 
 
-def checkConfig():
+def check_config():
     for mail in config['mail-settings'].values():
         if mail is None:
             logger.critical(f'"mail-settings"{language["config_not_filled"]}')
@@ -551,30 +554,35 @@ def checkConfig():
 
 
 if __name__ == '__main__':
-    my_config_file = 'config.yml'
+    config_name = 'config_owner.yml'
 
-    formatter = ColoredFormatter("%(log_color)s[%(asctime)s] |%(levelname)-8s |%(lineno)-3s |%(message)s",
-                                 datefmt='%H:%M:%S',
+    date_format = '%H:%M:%S'
+    info_format_console = '%(log_color)s[%(asctime)s] |%(levelname)-8s |%(lineno)-3s |%(message)s'
+    info_format_file = '[%(asctime)s] |%(levelname)-8s |%(lineno)-3s |%(funcName)s |%(pathname)s |%(message)s'
+    formatter = ColoredFormatter(fmt=info_format_console,
+                                 datefmt=date_format,
                                  reset=True,
                                  log_colors={
                                      'DEBUG': 'light_purple',
                                      'INFO': 'light_cyan',
                                      'WARNING': 'yellow',
                                      'ERROR': 'red',
-                                     'CRITICAL': 'red,bold_red',
-                                 })
-    formatter_file = logging.Formatter(fmt='[%(asctime)s] |%(levelname)-8s |%(lineno)-3s |%(funcName)s |%(pathname)s |%(message)s', datefmt='%H:%M:%S')
+                                     'CRITICAL': 'red,bold_red'})
+    formatter_file = logging.Formatter(fmt=info_format_file,
+                                       datefmt=date_format)
+
     logger = logging.getLogger('MainLogger')
     logger.setLevel(logging.DEBUG)
-    ConsoleLogger = logging.StreamHandler()
+    ConsoleLogger = logging.StreamHandler()  # 输出到终端
     ConsoleLogger.setFormatter(formatter)
-    FileLogger = logging.handlers.RotatingFileHandler(filename=f'./logs/latest.log', maxBytes=102400, backupCount=5)
+    FileLogger = logging.handlers.RotatingFileHandler(filename=f'./logs/latest.log', maxBytes=102400,
+                                                      backupCount=5)  # 输出到文件
     FileLogger.setFormatter(formatter_file)
     logger.addHandler(ConsoleLogger)
     logger.addHandler(FileLogger)
 
     # 获取语言配置
-    with open(my_config_file, 'r', encoding='utf-8') as lang:
+    with open(config_name, 'r', encoding='utf-8') as lang:
         config = YAML().load(lang.read())
         language_sel = config['client-settings']['language']
         if language_sel not in ['zh_cn', 'en_us']:
@@ -585,7 +593,7 @@ if __name__ == '__main__':
         language = json.loads(lang_f.read())
 
     # 检查配置文件是否填写完成
-    checkConfig()
+    check_config()
 
     logger.info(f'{language["statement_1"]}')
     logger.info(f'{language["statement_2"]}')
@@ -608,11 +616,11 @@ if __name__ == '__main__':
     arg_test = parser.parse_args().test
     if arg_test:
         if arg_test == 'dev':
-            SendWeatherMail().Dev_mode()
+            SendWeatherMail().dev_mode()
             logger.debug(f'{language["debug_done"]}')
             sys.exit(0)
         elif arg_test == 'free':
-            SendWeatherMail().Free_mode()
+            SendWeatherMail().free_mode()
             logger.debug(f'{language["debug_done"]}')
             sys.exit(0)
         elif arg_test == 'warning':
@@ -624,7 +632,7 @@ if __name__ == '__main__':
     _mode = config['request-settings']['mode']
 
     #  另开一个进程与主进程同时运行 --> 运行loopCheck --> 循环检查本地时间是否与配置内时间相符
-    multiprocessing.Process(target=loopCheck, args=(_mode, _times,)).run()
+    multiprocessing.Process(target=loop_check, args=(_mode, _times,)).run()
 
     # 循环检测时间 -> 每10分钟检查一次, 如果有则发送如果无则直接跳过
     loop_timer = 0

@@ -518,7 +518,6 @@ def loopCheck(mode: str, time_list: list):
     if mode == 'dev':
         while True:
             local_time = time.strftime("%H:%M", time.localtime())
-            logger_file.info("There's no error. Program runs normally...")
             time.sleep(1)
             if local_time in time_list:
                 SendWeatherMail().Dev_mode()
@@ -528,7 +527,6 @@ def loopCheck(mode: str, time_list: list):
     elif mode == 'free':
         while True:
             local_time = time.strftime("%H:%M", time.localtime())
-            logger_file.info("There's no error. Program runs normally...")
             time.sleep(1)
             if local_time in time_list:
                 SendWeatherMail().Free_mode()
@@ -553,7 +551,7 @@ def checkConfig():
 
 
 if __name__ == '__main__':
-    my_config_file = 'config.yml'
+    my_config_file = 'config_owner.yml'
 
     formatter = ColoredFormatter("%(log_color)s[%(asctime)s] |%(levelname)-8s |%(lineno)-3s |%(message)s",
                                  datefmt='%H:%M:%S',
@@ -567,15 +565,13 @@ if __name__ == '__main__':
                                  })
     formatter_file = logging.Formatter(fmt='[%(asctime)s] |%(levelname)-8s |%(lineno)-3s |%(funcName)s |%(pathname)s |%(message)s', datefmt='%H:%M:%S')
     logger = logging.getLogger('MainLogger')
-    logger_file = logging.getLogger('FileLogger')
     logger.setLevel(logging.DEBUG)
-    logger_file.setLevel(logging.DEBUG)
     ConsoleLogger = logging.StreamHandler()
     ConsoleLogger.setFormatter(formatter)
     FileLogger = logging.handlers.RotatingFileHandler(filename=f'./logs/latest.log', maxBytes=102400, backupCount=5)
     FileLogger.setFormatter(formatter_file)
     logger.addHandler(ConsoleLogger)
-    logger_file.addHandler(FileLogger)
+    logger.addHandler(FileLogger)
 
     # 获取语言配置
     with open(my_config_file, 'r', encoding='utf-8') as lang:

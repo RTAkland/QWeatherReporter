@@ -41,7 +41,7 @@ class SendWeatherMail:
         self.server = self.config['mail-settings']['server']  # 邮箱服务器
         self.port = self.config['mail-settings']['port']  # 邮箱端口号
         self.icon_style = self.config['client-settings']['icon-style']  # 天气图标
-        self.SSL = self.config['client-settings']  # 是否使用SSL连接到邮箱服务器
+        self.enableSSL = self.config['client-settings']  # 是否使用SSL连接到邮箱服务器
         self.city_name = self.config['only-view-settings']['city-name']  # 城市名称仅作邮件内容
 
         self.style_list = ['style1', 'style2', 'style3']
@@ -63,7 +63,7 @@ class SendWeatherMail:
         self.message['To'] = Header('All allowed User')  # 收件人显示名称
         self.msg_content = MIMEMultipart('alternative')  # 文字目录
 
-        if self.SSL:
+        if self.enableSSL:
             self.smtp = smtplib.SMTP_SSL(self.server, self.port)  # 登录服务器 使用SSL连接
         else:
             self.smtp = smtplib.SMTP(self.server, self.port)  # 登录邮箱服务器 不使用SSL连接
@@ -466,7 +466,7 @@ class SendWeatherMail:
 
             level = data['warning'][0]['level']
             type_ = data['warning'][0]['type']
-            type_ = self.type_name[type_]
+            type_ = self.type_name[type_]  # 将数字type转换为文字
             text = data['warning'][0]['text']
             self.message['Subject'] = language['subject_war']
             self.message['Subject'] = f'{title}'
@@ -538,7 +538,7 @@ def loop_check(mode: str, time_list: list):
                 time.sleep(61)
 
 
-def check_config():
+def check_config():  # 检查各项配置是否完成填写
     for mail in config['mail-settings'].values():
         if mail is None:
             logger.critical(f'"mail-settings"{language["config_not_filled"]}')
@@ -554,7 +554,7 @@ def check_config():
 
 
 if __name__ == '__main__':
-    config_name = 'config.yml'
+    config_name = 'config.yml'  # 配置文件名称 -> 用于开发时快速调试
 
     date_format = '%H:%M:%S'
     info_format_console = '%(log_color)s[%(asctime)s] |%(levelname)-8s |%(lineno)-3s |%(message)s'
@@ -575,10 +575,10 @@ if __name__ == '__main__':
     logger.setLevel(logging.DEBUG)
     ConsoleLogger = logging.StreamHandler()  # 输出到终端
     ConsoleLogger.setFormatter(formatter)
-    log_name = time.strftime('%Y-%m-%d-%H')  # 一小时内日志文件都是一个
+    log_name = time.strftime('%Y-%m-%d-%H')  # 一小时内使用的日志文件都是同一个
     FileLogger = logging.handlers.RotatingFileHandler(filename=f'./logs/{log_name}.log',
-                                                      maxBytes=5000,
-                                                      backupCount=5)
+                                                      maxBytes=10240,
+                                                      backupCount=5)  # 每个日志文件最大10240字节(≈10kb)
     FileLogger.setFormatter(formatter_file)
     logger.addHandler(ConsoleLogger)
     logger.addHandler(FileLogger)

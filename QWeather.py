@@ -258,11 +258,11 @@ class SendWeatherMail:
                 self.message.attach(MyImage)
                 image_count += 1
 
-        with open('./resource/extra-icon/sunrise.png', 'rb') as sr_f:
+        with open('resource/basic-resources/sunrise.png', 'rb') as sr_f:
             sunrise_img = MIMEImage(sr_f.read())
             sunrise_img.add_header('Content-ID', 'sunrise')
             self.message.attach(sunrise_img)
-        with open('./resource/extra-icon/sunset.png', 'rb') as ss_f:
+        with open('resource/basic-resources/sunset.png', 'rb') as ss_f:
             sunset_img = MIMEImage(ss_f.read())
             sunset_img.add_header('Content-ID', 'sunset')
             self.message.attach(sunset_img)
@@ -408,11 +408,11 @@ class SendWeatherMail:
             self.message.attach(MyImage)
             image_count += 1
 
-        with open('./resource/extra-icon/sunrise.png', 'rb') as sr_f:
+        with open('resource/basic-resources/sunrise.png', 'rb') as sr_f:
             sunrise_img = MIMEImage(sr_f.read())
             sunrise_img.add_header('Content-ID', 'sunrise')
             self.message.attach(sunrise_img)
-        with open('./resource/extra-icon/sunset.png', 'rb') as ss_f:
+        with open('resource/basic-resources/sunset.png', 'rb') as ss_f:
             sunset_img = MIMEImage(ss_f.read())
             sunset_img.add_header('Content-ID', 'sunset')
             self.message.attach(sunset_img)

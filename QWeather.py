@@ -635,7 +635,7 @@ if __name__ == '__main__':
     #  另开一个进程与主进程同时运行 --> 运行loopCheck --> 循环检查本地时间是否与配置内时间相符
     multiprocessing.Process(target=loop_check, args=(_mode, _times,)).run()
 
-    # 循环检测时间 -> 每10分钟检查一次, 如果有则发送如果无则直接跳过
+    # 循环检测时间 --> 每10分钟检查一次, 如果有则发送如果无则直接跳过
     loop_timer = 0
     while True:
         time.sleep(1)

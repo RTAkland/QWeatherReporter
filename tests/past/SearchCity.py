@@ -58,14 +58,14 @@ if __name__ == '__main__':
             try:
                 select_index = int(
                     input(f'\033[32;32m[{time.strftime("%H:%M:%S", time.localtime())}] [INFO] 请输入数据前的索引选择城市:'))
-                with open('./config.yml', 'r', encoding='utf-8') as of:
+                with open('../../config.yml', 'r', encoding='utf-8') as of:
                     data = yaml.load(of)
                     data['request-settings']['location'] = result[select_index][0]
                     data['only-view-settings'][
                         'city-name'] = f'{result[select_index][2]}-{result[select_index][4]}-{result[select_index][6]} '
                     data['only-view-settings']['time'] = time.strftime("%a %b %d %H:%M:%S %Y", time.localtime())
                     data['only-view-settings']['user'] = getpass.getuser()
-                with open('./config.yml', 'w', encoding='utf-8') as wf:
+                with open('../../config.yml', 'w', encoding='utf-8') as wf:
                     yaml.dump(data, wf)
                 logger.info('写入完成')
                 sys.exit(0)

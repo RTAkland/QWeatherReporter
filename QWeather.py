@@ -5,11 +5,13 @@
 # @Create Time: 2021/10/23
 # @File Name: QWeather.py
 
-
+import os
 import sys
 import json
 import time
+import pandas
 import smtplib
+import getpass
 import requests
 import argparse
 import multiprocessing
@@ -553,6 +555,63 @@ def check_config():  # 检查各项配置是否完成填写
             sys.exit(1)
 
 
+def read_excel(kw: str):
+    """
+
+    :param kw: 用于搜索的关键字
+    :return: city_list
+    """
+    index_count = 0
+    city_list = []
+    # logger.info('文件读取中...')
+    df = pandas.read_excel('./resource/China-City-List.xlsx')
+    pandas.set_option('max_rows', None)  # 读取xlsx文件不折叠
+    data_records = df.to_dict(orient='split')
+    for i in data_records['data']:
+        if kw in str(i):
+            city = [index_count, i[0], i[2], i[4], i[6]]
+            index_count += 1
+            city_list.append(city)
+    return city_list
+
+
+def first_start():
+    flag = os.path.isfile('./logs/flag')
+    if flag:
+        logger.info(language['input_a_city_name'])
+        time.sleep(0.5)
+        city_name = input('-->')
+        searched_city = read_excel(city_name)
+        logger.info(f'{language["user_input"]} [{city_name}]')
+        for cities in searched_city:
+            logger.info(f'{cities[0]}-{cities[1]}-{cities[2]}-{cities[3]}-{cities[4]}')
+        logger.info(language['select_a_index'])
+        time.sleep(0.5)
+        while True:
+            try:
+                time.sleep(0.5)
+                user_input = input('-->')
+                if user_input == 'quit':
+                    logger.info('User quit')
+                    sys.exit(1)
+                index = searched_city[int(user_input)]
+                with open('./config.yml', 'r', encoding='utf-8') as of:
+                    data = YAML().load(of)
+                    data['request-settings']['location'] = index[1]
+                    data['only-view-settings']['city-name'] = f'{index[2]}-{index[3]}-{index[4]}'
+                    data['only-view-settings']['time'] = time.strftime("%a %b %d %Y %H:%M:%S", time.localtime())
+                    data['only-view-settings']['user'] = getpass.getuser()
+                with open('./config.yml', 'w', encoding='utf-8') as wf:
+                    YAML().dump(data, wf)
+                logger.info(language['write_successfully'])
+                os.remove('./logs/flag')
+                break
+            except (IndexError, ValueError) as e:
+                logger.info(e)
+                logger.error(language['input_type_error'])
+                continue
+
+
 if __name__ == '__main__':
     config_name = 'config.yml'  # 配置文件名称 -> 用于开发时快速调试
 
@@ -593,6 +652,8 @@ if __name__ == '__main__':
     # 打开语言json文件
     with open(f'./resource/lang/{language_sel}.json', 'r', encoding='utf-8') as lang_f:
         language = json.loads(lang_f.read())
+
+    first_start()
 
     # 检查配置文件是否填写完成
     check_config()

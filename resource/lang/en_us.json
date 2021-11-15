@@ -35,5 +35,11 @@
   "warning_status": "Warning status",
   "warning_type": "Warning type",
   "warning_duration": "Duration",
-  "wait_seconds": "Wait 61 seconds..."
+  "wait_seconds": "Wait 61 seconds...",
+  "write_successfully": "The config file has been filled successfully.",
+  "input_type_error": "Please check the input.",
+  "reading_the_file": "Reading file...",
+  "select_a_index": "Select a index to write.",
+  "input_a_city_name": "Choose a weather forecast area -> Input the city name to search.",
+  "user_input": "You entered"
 }

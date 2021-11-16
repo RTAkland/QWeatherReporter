@@ -1,0 +1,113 @@
+# !!! 注意 !!! #
+# 填写数据时请在冒号后加一个空格. 例如:
+# example:""    [no]
+# example: ""   [yes]
+
+# 邮箱类设置
+mail-settings:
+
+ # [必填/只能一个] 邮件代发邮箱
+  sender:
+
+
+ # [必填/只能一个] 代发邮箱登录密码
+ # 具体申请方法自行搜索
+  password:
+
+
+ # [必填/只能一个] 代发邮箱服务器
+ # 如example@yeah.net 服务器则为: smtp.yeah.net
+ # qq邮箱: smtp.qq.com
+ # 163邮箱: smtp.163.com
+  server:
+
+
+ # [必填/只能一个] 服务器端口
+ # 连接方式使用SSL连接
+ # 默认: 465
+  port: 465
+
+
+# API请求设置
+request-settings:
+
+ # [必填/只能一个] API密钥
+ # 注册账号前往: https://id.qweather.com/#/register?redirect=https%3A%2F%2Fconsole.qweather.com 
+ # 申请key前往: https://dev.qweather.com/docs/start/get-key/
+ # 变更用户类型前往: https://dev.qweather.com/help/account/#account-type
+  key:
+
+
+ # [必填/只能一个] 地区ID代码
+ # 请勿擅自修改 更改地区ID请在./logs 目录文件下新建 `flag`文件(不带后缀名)
+  location: 101010200
+
+
+ # [必填/只能一个] 发送模式
+ # 可选: "free", "dev"
+ # 默认: free
+ # free代表只能获取3天的天气并且不会附带一条生活建议
+ # dev代表可以获取7天的天气并且附带一条生活建议
+ # 注: 两种模式都支持获取自然灾害预警
+  mode: free
+
+
+ # [选填/只能一个] 度量单位
+ # 可选: "m", "i"
+ # 默认: m
+ # m代表公制单位 例如"今天温度为27 ℃", "能见度为10 km"
+ # i代表英制单位 例如"今天温度27 ℉", "能见度为10 mile"
+ # 了解更多请前往: https://dev.qweather.com/docs/start/unit/
+  unit: m
+
+
+ # [选填/只能一个] 返回数据语言
+ # 可选: *请前往 https://dev.qweather.com/docs/start/language/ 查看*
+ # 默认: zh
+  lang: zh
+
+ # [必填/可多个] 邮件接收者 不管有几个必须是列表
+ # 填写示例:
+ # receiver:
+ #  -example@example.com
+ #  -example@example.com
+ #  -example@example.com
+  receiver:
+  - example@example.com
+  - example@example.com
+  - example@example.com
+
+
+# 客户端设置
+client-settings:
+
+ # [必填/只能一个] 图标风格
+ # 默认: "style1"
+ # 可选: "style1" , "style2" , "style3"
+ # 注: style1为简约无色图标 style2为简约有色图标 style3为彩色图标
+  icon-style: style1
+
+
+ # [必填/可多个] 发送邮件时间 不管有几个必须是列表
+ # 默认: ['08:00', '12:00', '18:00']
+ # 具体填写见 *receiver* 示例
+  send-times:
+  - 08:00
+  - 12:00
+  - 18:00
+
+ # [必填/只能一个] 本地语言选项 此项影响控制台输出的语言和邮件html的部分语言
+ # 默认: zh_cn
+ # 可选: "zh_cn" "en_us"
+ # 不填或填错默认 "zh_cn"
+  language: zh_cn
+
+# [标识/不填] 仅作用户读取标识
+only-view-settings:
+ # 城市名
+  city-name: 海淀-北京市-北京
+ # 修改时间
+  time: Tue Nov 16 2021 21:45:27
+ # 修改用户
+  user: Tapso
+

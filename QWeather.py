@@ -575,17 +575,18 @@ def read_excel(kw: str):
     return city_list
 
 
-def first_start():
-    flag = os.path.isfile('./logs/flag')
-    if flag:
-        logger.info(language['input_a_city_name'])
+def modify_config(status: bool = False):
+    if os.path.exists('./logs/flag') or not status:
+        logger.info(f'[Modify]{language["fill_the_config"]}')
+        logger.info(f'[Modify]{language["input_a_city_name"]}')
         time.sleep(0.5)
         city_name = input('-->')
+        logger.info(f'[Modify]{language["reading_the_file"]}')
         searched_city = read_excel(city_name)
-        logger.info(f'{language["user_input"]} [{city_name}]')
+        logger.info(f'[Modify]{language["user_input"]}:[{city_name}]')
         for cities in searched_city:
             logger.info(f'{cities[0]}-{cities[1]}-{cities[2]}-{cities[3]}-{cities[4]}')
-        logger.info(language['select_a_index'])
+        logger.info(f'[Modify]{language["select_a_index"]}')
         time.sleep(0.5)
         while True:
             try:
@@ -603,13 +604,14 @@ def first_start():
                     data['only-view-settings']['user'] = getpass.getuser()
                 with open('./config.yml', 'w', encoding='utf-8') as wf:
                     YAML().dump(data, wf)
-                logger.info(language['write_successfully'])
-                os.remove('./logs/flag')
+                logger.info(f'[Write]{language["write_successfully"]}')
                 break
             except (IndexError, ValueError) as e:
                 logger.info(e)
-                logger.error(language['input_type_error'])
+                logger.error(f'[Write]{language["input_type_error"]}')
                 continue
+            finally:
+                os.remove('./logs/flag')
 
 
 if __name__ == '__main__':
@@ -642,6 +644,10 @@ if __name__ == '__main__':
     logger.addHandler(ConsoleLogger)
     logger.addHandler(FileLogger)
 
+    # 使用本地网络进行请求
+    session = requests.Session()
+    session.trust_env = False
+
     # 获取语言配置
     with open(config_name, 'r', encoding='utf-8') as lang:
         config = YAML().load(lang.read())
@@ -653,19 +659,7 @@ if __name__ == '__main__':
     with open(f'./resource/lang/{language_sel}.json', 'r', encoding='utf-8') as lang_f:
         language = json.loads(lang_f.read())
 
-    first_start()
-
-    # 检查配置文件是否填写完成
-    check_config()
-
-    logger.info(f'{language["statement_1"]}')
-    logger.info(f'{language["statement_2"]}')
-    logger.info(f'{language["statement_3"]}')
-    logger.info(f'{language["statement_4"]}\n')
-
-    # 使用本地网络进行请求
-    session = requests.Session()
-    session.trust_env = False
+    modify_config(True)
 
     # 获取参数
     parser = argparse.ArgumentParser()
@@ -674,7 +668,8 @@ if __name__ == '__main__':
                         help='Some operations for test.',
                         choices=['free',
                                  'dev',
-                                 'warning'])
+                                 'warning',
+                                 'modify'])
     arg_test = parser.parse_args().test
     if arg_test:
         if arg_test == 'dev':
@@ -689,6 +684,17 @@ if __name__ == '__main__':
             SendWeatherMail().warning_send_mail()
             logger.debug(f'{language["debug_done"]}')
             sys.exit(0)
+        elif arg_test == 'modify':
+            modify_config(False)
+            logger.info(f'{language["debug_done"]}')
+
+    # 检查配置文件是否填写完成
+    check_config()
+
+    logger.info(f'{language["statement_1"]}')
+    logger.info(f'{language["statement_2"]}')
+    logger.info(f'{language["statement_3"]}')
+    logger.info(f'{language["statement_4"]}\n')
 
     _times = config['client-settings']['send-times']
     _mode = config['request-settings']['mode']

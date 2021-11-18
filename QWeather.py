@@ -4,7 +4,7 @@
 # @Development Tool: PyCharm
 # @Create Time: 2021/10/23
 # @File Name: QWeather.py
-
+import os.path
 import sys
 import json
 import time
@@ -571,7 +571,7 @@ def read_excel(kw: str):
     logger.info(f'[Search]{language["reading_the_file"]}')
     df = pandas.read_excel('./resource/China-City-List.xlsx')
     pandas.set_option('max_rows', None)  # 读取xlsx文件不折叠
-    data_records = df.to_dict(orient='spl0it')
+    data_records = df.to_dict(orient='split')
     for i in data_records['data']:
         if kw in str(i):
             city = [index_count, i[0], i[2], i[4], i[6]]
@@ -589,6 +589,11 @@ def modify_config(status: bool = False):
     :param status: 触发修改模式的条件
     :return: Nothing
     """
+    # 由于logs是空文件夹, git上传到GitHub时并不会上传空文件夹, 故自动创建一个文件夹
+    try:
+        os.mkdir('./logs')
+    except FileExistsError:
+        pass
     with open(config_name, 'r', encoding='utf-8') as _location_check:
         _location = YAML().load(_location_check.read())['request-settings']['location']
 

@@ -6,8 +6,8 @@
 # 如何使用
 - 程序基于python3.x开发 务必使用python3.x版本运行
 - 将config.yml正确填写完成
-- 使用`pip install -r requirements.txt` 安装需要的库
-- 运行`QWeather.py` 或 `QWeather.sh`
+- 使用`pip/pip3 install -r requirements.txt` 安装需要的库
+- 运行`QWeather.py`
 
 # English README.md
 # Statement
@@ -19,4 +19,4 @@
 - Run program using Python3
 - Fill in the configuration file correctly
 - Use `pip/pip3 -install -r requirements.txt` to install required libraries
-- Run `QWeather.py` or `QWeather.sh`
+- Run `QWeather.py`

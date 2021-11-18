@@ -39,8 +39,8 @@ request-settings:
 
 
  # [必填/只能一个] 地区ID代码
- # 请勿擅自修改 更改地区ID请在./logs 目录文件下新建 `flag`文件(不带后缀名)
-  location: 101010200
+ # 请勿擅自修改 更改地区ID请使用命令: "python -m QWeather.py -t modify" 回车后根据向导完成修改
+  location:
 
 
  # [必填/只能一个] 发送模式
@@ -105,9 +105,9 @@ client-settings:
 # [标识/不填] 仅作用户读取标识
 only-view-settings:
  # 城市名
-  city-name: 海淀-北京市-北京
+  city-name: 黄岩-浙江省-台州
  # 修改时间
-  time: Tue Nov 16 2021 21:45:27
+  time: Thu Nov 18 2021 22:09:24
  # 修改用户
   user: Tapso
 

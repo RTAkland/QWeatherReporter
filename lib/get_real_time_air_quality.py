@@ -7,7 +7,7 @@
 
 """
 开发版key获取实时空气质量
-only: Dev-mode
+启用等级: DEV
 """
 
 import requests

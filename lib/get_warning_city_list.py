@@ -7,7 +7,7 @@
 
 """
 开发版key使用此API可以快速返回正在预警的城市id
-Only Dev-mode
+启用等级: DEV
 """
 
 import requests

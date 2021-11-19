@@ -1,6 +1,6 @@
 # Python版本问题
-## 程序使用了Python3.10中的match-case语句
-## 请使用Python3.10版本运行
+ []程序使用了Python3.10中的match-case语句
+ [x]请使用Python3.10版本运行
 
 # 声明
 - >程序作者: **RTAkland (markushammered@gmail.com)**

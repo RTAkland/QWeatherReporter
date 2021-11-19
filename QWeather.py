@@ -692,6 +692,7 @@ if __name__ == '__main__':
                         help='Some operations for test.',
                         choices=arg_keywords)
     startup_arg = parser.parse_args().test
+    # Python3.10 更新的match-case 语法
     match startup_arg:
         case 'free':
             SendWeatherMail().free_mode()

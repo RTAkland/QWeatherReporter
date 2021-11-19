@@ -36,12 +36,13 @@
   "warning_type": "灾害类型",
   "warning_duration": "持续时间",
   "wait_seconds": "等待61秒...",
-  "write_successfully": "配置文件填写完成...",
+  "write_successfully": "成功写入到配置文件",
   "input_type_error": "输入错误, 请重新输入(q 退出)",
   "reading_the_file": "读取文件中...",
   "select_a_index": "选择一个索引写入文件",
   "input_a_city_name": "输入城市名搜索 -> 输入城市名进行搜索",
   "user_input": "你输入了",
   "fill_the_config": "填写配置文件",
-  "today": "今天"
+  "today": "今天",
+  "current_profile": "已选择的配置文件"
 }

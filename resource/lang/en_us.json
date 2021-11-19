@@ -36,12 +36,13 @@
   "warning_type": "Warning type",
   "warning_duration": "Duration",
   "wait_seconds": "Wait 61 seconds...",
-  "write_successfully": "The config file has been filled successfully.",
+  "write_successfully": "Successfully written to the config file",
   "input_type_error": "Please check the input(q for quit).",
   "reading_the_file": "Reading file...",
   "select_a_index": "Select a index to write.",
   "input_a_city_name": "Choose a weather forecast area -> Input the city name to search.",
   "user_input": "You entered",
   "fill_the_config": "Fill the configuration file.",
-  "today": "Today"
+  "today": "Today",
+  "current_profile": "Selected profile"
 }

@@ -657,8 +657,8 @@ if __name__ == '__main__':
     ConsoleLogger.setFormatter(formatter)
     log_name = time.strftime('%Y-%m-%d-%H')  # 一小时内使用的日志文件都是同一个
     FileLogger = logging.handlers.RotatingFileHandler(filename=f'./logs/{log_name}.log',
-                                                      maxBytes=102400,
-                                                      backupCount=5)  # 每个日志文件最大102400字节(≈100kb)
+                                                      maxBytes=10240000,
+                                                      backupCount=5)  # 每个日志文件最大10240000字节(≈9.76563Mb)
     FileLogger.setFormatter(formatter_file)
     logger.addHandler(ConsoleLogger)
     logger.addHandler(FileLogger)
@@ -677,6 +677,10 @@ if __name__ == '__main__':
     # 打开语言json文件
     with open(f'./resource/lang/{language_sel}.json', 'r', encoding='utf-8') as lang_f:
         language = json.loads(lang_f.read())
+
+    _TIMES = config['client-settings']['send-times']
+    _MODE = config['request-settings']['mode']
+    _LOCATION = config['request-settings']['location']
 
     modify_config(True)
 
@@ -716,10 +720,6 @@ if __name__ == '__main__':
     logger.info(f'{language["statement_3"]}')
     logger.info(f'{language["statement_4"]}')
     logger.info(f'{language["current_profile"]}')
-
-    _TIMES = config['client-settings']['send-times']  #
-    _MODE = config['request-settings']['mode']
-    _LOCATION = config['request-settings']['location']
 
     #  另开一个进程与主进程同时运行 --> 运行loopCheck --> 循环检查本地时间是否与配置内时间相符
     multiprocessing.Process(target=loop_check, args=(_MODE, _TIMES,)).run()

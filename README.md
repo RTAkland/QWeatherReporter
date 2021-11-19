@@ -3,7 +3,7 @@
 ## 请使用Python3.10版本运行
 
 # 声明
-- *程序作者: **RTAkland (markushammered@gmail.co m)***
+- >程序作者: **RTAkland (markushammered@gmail.com)**
 - >和风天气开发者平台：https://dev.qweather.com和风天气开发者平台</a></i>
 - >和风天气官网: https://qweather.com和风天气官网</a></i>
 
@@ -15,7 +15,7 @@
 
 # English README.md
 # Statement
-- Developed by **RTAkland (markushammered@gmail.com)**
+- >Developed by **RTAkland (markushammered@gmail.com)**
 - >The weather API from QWeather https://qweather.com
 - >QWeather Developer Platform: https://dev.qweather.com
 

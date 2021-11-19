@@ -26,7 +26,7 @@ from email.mime.multipart import MIMEMultipart
 
 class SendWeatherMail:
     def __init__(self):
-        with open(config_name, 'r', encoding='utf-8') as config_f:
+        with open(CONFIG_NAME, 'r', encoding='utf-8') as config_f:
             self.config = YAML().load(config_f)
         with open('resource/type_warning.json', 'r', encoding='utf-8') as type_f:
             self.type_name = json.loads(type_f.read())
@@ -58,9 +58,9 @@ class SendWeatherMail:
         self.headers = {'Accept-Encoding': 'gzip, deflate'}  # 请求头
 
         self.params = {'location': self.location,
-                      'key': self.key,
-                      'unit': self.unit,
-                      'lang': self.lang}  # GET方式请求参数
+                       'key': self.key,
+                       'unit': self.unit,
+                       'lang': self.lang}  # GET方式请求参数
 
         self.message = MIMEMultipart('related')
         self.message['From'] = Header('HeWeatherReporter')  # 发件人名称
@@ -461,14 +461,14 @@ class SendWeatherMail:
                 start_time = None
             elif not end_time:
                 end_time = None
-            status = data['warning'][0]['status']
-            if status == 'update':
-                status = {language["new_warning"]}
+            warning_status = data['warning'][0]['status']
+            if warning_status == 'update':
+                warning_status = {language["new_warning"]}
                 logger.info(f'{language["new_warning"]}')
-            elif status == 'active':
-                status = language["warning_updated"]
+            elif warning_status == 'active':
+                warning_status = language["warning_updated"]
                 logger.info(f'{language["warning_updated"]}')
-            elif status == 'cancel':
+            elif warning_status == 'cancel':
                 logger.info(f'{language["warning_canceled"]}')
 
             level = data['warning'][0]['level']
@@ -489,7 +489,7 @@ class SendWeatherMail:
                 <h2>{title}</h2>
                 <h3>{language['release_time']}:{public_time[:10]} {level}{language['early_warning']}</h3>
                 <p>
-                    {language['warning_status']}:{status} {language['warning_type']}:{type_} {language['warning_duration']}:{start_time[:10]}-{end_time[:10]}
+                    {language['warning_status']}:{warning_status} {language['warning_type']}:{type_} {language['warning_duration']}:{start_time[:10]}-{end_time[:10]}
                     <br />
                     {text}
                 </p>
@@ -512,7 +512,7 @@ class SendWeatherMail:
             self.msg_content.attach(MIMEText(mail_html, 'html', 'utf-8'))
             self.message.attach(self.msg_content)
             try:
-                if status != 'cancel':
+                if warning_status != 'cancel':
                     self.smtp.login(self.sender, self.password)
                     self.smtp.sendmail(self.sender, self.receiver, self.message.as_string())
             except smtplib.SMTPException as e:
@@ -580,24 +580,21 @@ def read_excel(kw: str):
     return city_list
 
 
-def modify_config(status: bool = False):
+def modify_config(mode: bool = False):
     """
     修改配置文件 -> 检测配置文件内的location项是否填写
     填写 -> 跳过
     未填写 -> 触发
     (如果不小心在location项内随便输入了什么会导致误判)
-    :param status: 触发修改模式的条件
+    :param mode: 触发修改模式的条件
     :return: Nothing
     """
-    with open(config_name, 'r', encoding='utf-8') as _location_check:
-        _location = YAML().load(_location_check.read())['request-settings']['location']
 
-    if not _location or not status:  # 如果配置中location未填写或status未False则触发条件
+    if not _LOCATION or not mode:  # 如果配置中location未填写或status未False则触发条件
         logger.info(f'[Modify]{language["fill_the_config"]}')
         logger.info(f'[Modify]{language["input_a_city_name"]}')
         time.sleep(0.5)
         city_name = input('-->')
-        logger.info(f'[Modify]{language["reading_the_file"]}')
         searched_city = read_excel(city_name)
         logger.info(f'[Modify]{language["user_input"]}:[{city_name}]')
         for cities in searched_city:
@@ -609,31 +606,31 @@ def modify_config(status: bool = False):
                 time.sleep(0.5)
                 user_input = input('-->')
                 if user_input == 'quit':
-                    logger.info('User quit')
+                    logger.info('[Quit]User quit')
                     sys.exit(1)
                 index = searched_city[int(user_input)]
-                with open('./config.yml', 'r', encoding='utf-8') as of:
+                with open(CONFIG_NAME, 'r', encoding='utf-8') as of:
                     data = YAML().load(of)
                     data['request-settings']['location'] = index[1]
                     data['only-view-settings']['city-name'] = f'{index[2]}-{index[3]}-{index[4]}'
                     data['only-view-settings']['time'] = time.strftime("%a %b %d %Y %H:%M:%S", time.localtime())
                     data['only-view-settings']['user'] = getpass.getuser()
-                with open('./config.yml', 'w', encoding='utf-8') as wf:
+                with open(CONFIG_NAME, 'w', encoding='utf-8') as wf:
                     YAML().dump(data, wf)
-                logger.info(f'[Write]{language["write_successfully"]}')
+                logger.info(f'[Write]{language["write_successfully"]}:{CONFIG_NAME}')
                 break
             except (IndexError, ValueError) as e:
                 logger.info(e)
                 logger.error(f'[Write]{language["input_type_error"]}')
                 continue
             finally:
-                if not status:
-                    logger.info('Program has done.')
+                if not mode:
+                    logger.info('[Done]Program has done.')
                     sys.exit(0)
 
 
 if __name__ == '__main__':
-    config_name = 'config.yml'  # 配置文件名称 -> 用于开发时快速调试
+    CONFIG_NAME = 'config.yml'  # 配置文件名称 -> 用于开发时快速调试
 
     # logs未空文件夹git上传时会自动忽略此文件夹， 故添加自动创建文件夹
     if not os.path.isdir('./logs'):
@@ -671,7 +668,7 @@ if __name__ == '__main__':
     session.trust_env = False
 
     # 获取语言配置
-    with open(config_name, 'r', encoding='utf-8') as lang:
+    with open(CONFIG_NAME, 'r', encoding='utf-8') as lang:
         config = YAML().load(lang.read())
         language_sel = config['client-settings']['language']
         if language_sel not in ['zh_cn', 'en_us']:
@@ -690,23 +687,25 @@ if __name__ == '__main__':
                         '--test',
                         help='Some operations for test.',
                         choices=arg_keywords)
-    arg_test = parser.parse_args().test
-    if arg_test:
-        if arg_test == 'dev':
-            SendWeatherMail().dev_mode()
-            logger.debug(f'{language["debug_done"]}')
-            sys.exit(0)
-        elif arg_test == 'free':
+    startup_arg = parser.parse_args().test
+    match startup_arg:
+        case 'free':
             SendWeatherMail().free_mode()
             logger.debug(f'{language["debug_done"]}')
             sys.exit(0)
-        elif arg_test == 'warning':
+        case 'dev':
+            SendWeatherMail().dev_mode()
+            logger.debug(f'{language["debug_done"]}')
+            sys.exit(0)
+        case 'warning':
             SendWeatherMail().warning_send_mail()
             logger.debug(f'{language["debug_done"]}')
             sys.exit(0)
-        elif arg_test == 'modify':
+        case 'modify':
             modify_config()
             logger.info(f'{language["debug_done"]}')
+        case _:
+            pass
 
     # 检查配置文件是否填写完成
     check_config()
@@ -715,13 +714,15 @@ if __name__ == '__main__':
     logger.info(f'{language["statement_1"]}')
     logger.info(f'{language["statement_2"]}')
     logger.info(f'{language["statement_3"]}')
-    logger.info(f'{language["statement_4"]}\n')
+    logger.info(f'{language["statement_4"]}')
+    logger.info(f'{language["current_profile"]}')
 
-    _times = config['client-settings']['send-times']
-    _mode = config['request-settings']['mode']
+    _TIMES = config['client-settings']['send-times']  #
+    _MODE = config['request-settings']['mode']
+    _LOCATION = config['request-settings']['location']
 
     #  另开一个进程与主进程同时运行 --> 运行loopCheck --> 循环检查本地时间是否与配置内时间相符
-    multiprocessing.Process(target=loop_check, args=(_mode, _times,)).run()
+    multiprocessing.Process(target=loop_check, args=(_MODE, _TIMES,)).run()
 
     # 循环检测时间 --> 每10分钟检查一次, 如果有则发送如果无则直接跳过
     loop_timer = 0

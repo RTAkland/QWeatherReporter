@@ -589,11 +589,6 @@ def modify_config(status: bool = False):
     :param status: 触发修改模式的条件
     :return: Nothing
     """
-    # 由于logs是空文件夹, git上传到GitHub时并不会上传空文件夹, 故自动创建一个文件夹
-    try:
-        os.mkdir('./logs')
-    except FileExistsError:
-        pass
     with open(config_name, 'r', encoding='utf-8') as _location_check:
         _location = YAML().load(_location_check.read())['request-settings']['location']
 
@@ -639,6 +634,10 @@ def modify_config(status: bool = False):
 
 if __name__ == '__main__':
     config_name = 'config.yml'  # 配置文件名称 -> 用于开发时快速调试
+
+    # logs未空文件夹git上传时会自动忽略此文件夹， 故添加自动创建文件夹
+    if not os.path.isdir('./logs'):
+        os.mkdir('./logs')
 
     date_format = '%H:%M:%S'
     info_format_console = '%(log_color)s[%(asctime)s] |%(levelname)-8s |%(lineno)-3s |%(message)s'

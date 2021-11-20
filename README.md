@@ -11,13 +11,16 @@
 ## *QWeather*
 
 > <i><a href="https://www.qweather.com/">QWeather Official Website</a></i>\
-> <i><a href="https://dev.qweather.com/">QWeather Development Platform</i>
+> <i><a href="https://dev.qweather.com/">QWeather Development Platform</a></i>
 
 </div>
 
 ## Python版本问题
 - > 程序使用了Python3.10中的match-case语句
 - > 请使用Python3.10版本运行
+  
+## 配置文件填写问题
+- > `location`项和`only-view-settings`类不需要用户填写, 只需要打开`QWeather.py`进行自助填写
 
 ## 声明
 - > 程序作者: **RTAkland (markushammered@gmail.com)**

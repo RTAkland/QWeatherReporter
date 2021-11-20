@@ -99,7 +99,7 @@ client-settings:
  # [必填/只能一个] 本地语言选项 此项影响控制台输出的语言和邮件html的部分语言
  # 默认: zh_cn
  # 可选: "zh_cn" "en_us"
- # 不填或填错默认 "zh_cn"
+ # 填错默认 "zh_cn"
   language: zh_cn
 
 # [标识/不填] 仅作用户读取标识

@@ -578,6 +578,7 @@ def read_excel(kw: str):
     data_records = df.to_dict(orient='split')
     for i in data_records['data']:
         if kw in str(i):
+            logger.info(f'{index_count}|{i[0]}-{i[2]}-{i[4]}-{i[6]}')
             city = [index_count, i[0], i[2], i[4], i[6]]
             index_count += 1
             city_list.append(city)
@@ -601,15 +602,13 @@ def modify_config(mode: bool = False):
         city_name = input('-->')
         searched_city = read_excel(city_name)
         logger.info(f'[Modify]{language["user_input"]}:[{city_name}]')
-        for cities in searched_city:
-            logger.info(f'{cities[0]}-{cities[1]}-{cities[2]}-{cities[3]}-{cities[4]}')
         logger.info(f'[Modify]{language["select_a_index"]}')
         time.sleep(0.5)
         while True:
             try:
                 time.sleep(0.5)
                 user_input = input('-->')
-                if user_input == 'quit':
+                if user_input == 'q':
                     logger.info('[Quit]User quit')
                     sys.exit(1)
                 index = searched_city[int(user_input)]

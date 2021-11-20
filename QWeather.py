@@ -47,7 +47,7 @@ class SendWeatherMail:
 
         self.style_list = ['style1', 'style2', 'style3']
 
-        # 如果配置文件内填错或不填 默认选择第一套图标(style1)
+        # 如果配置文件内填错 默认选择第一套图标(style1)
         if self.icon_style not in self.style_list:
             self.icon_style = 'style1'
 
@@ -63,7 +63,7 @@ class SendWeatherMail:
                        'lang': self.lang}  # GET方式请求参数
 
         self.message = MIMEMultipart('related')
-        self.message['From'] = Header('HeWeatherReporter')  # 发件人名称
+        self.message['From'] = Header('QWeather')  # 发件人名称
         self.message['To'] = Header('All allowed User')  # 收件人显示名称
         self.msg_content = MIMEMultipart('alternative')  # 文字目录
 
@@ -401,7 +401,7 @@ class SendWeatherMail:
                 <b>
                     <a href="https://dev.qweather.com/" style="color: black" target="_blank">QWeather</a>
                     <a style="color: black">&nbsp;·&nbsp;</a>
-                    <a href="https://github.com/MarkusJoe/HeWeatherReporter" style="color: black" target="_blank">Github Repo</a>
+                    <a href="https://github.com/MarkusJoe/QWeather" style="color: black" target="_blank">Github Repo</a>
                 </b>
             </i>
         </div>"""
@@ -502,7 +502,7 @@ class SendWeatherMail:
                     <b>
                         <a href="https://dev.qweather.com/" style="color: black" target="_blank">QWeather</a>
                         <a style="color: black">&nbsp;·&nbsp;</a>
-                        <a href="https://github.com/MarkusJoe/HeWeatherReporter" style="color: black" target="_blank">Github Repo</a>
+                        <a href="https://github.com/MarkusJoe/QWeather" style="color: black" target="_blank">Github Repo</a>
                     </b>
                 </i>
             </div>
@@ -545,7 +545,11 @@ def loop_check(mode: str, time_list: list):
                 time.sleep(61)
 
 
-def check_config():  # 检查各项配置是否完成填写
+def check_config():
+    """
+    检查各项配置是否填写完成
+    :return:
+    """
     for mail in config['mail-settings'].values():
         if mail is None:
             logger.critical(f'"mail-settings"{language["config_not_filled"]}')

@@ -573,13 +573,13 @@ def read_excel(kw: str):
     index_count = 0
     city_list = []
     logger.info(f'[Search]{language["reading_the_file"]}')
-    df = pandas.read_excel('./resource/China-City-List.xlsx')
+    df = pandas.read_excel(f'./resource/{LOCATION_ID_FILE_NAME}')
     pandas.set_option('max_rows', None)  # 读取xlsx文件不折叠
     data_records = df.to_dict(orient='split')
     for i in data_records['data']:
         if kw in str(i):
             logger.info(f'{index_count}|{i[0]}-{i[2]}-{i[4]}-{i[6]}')
-            city = [index_count, i[0], i[2], i[4], i[6]]
+            city = [index_count, i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9]]
             index_count += 1
             city_list.append(city)
     return city_list
@@ -598,15 +598,24 @@ def modify_config(mode: bool = False):
     if not _LOCATION or not mode:  # 如果配置中location未填写或status未False则触发条件
         logger.info(f'[Modify]{language["fill_the_config"]}')
         logger.info(f'[Modify]{language["input_a_city_name"]}')
-        time.sleep(0.5)
-        city_name = input('-->')
+        while True:
+            time.sleep(0.3)
+            city_name = input('-->')
+            if not city_name:
+                logger.critical(f'[Modify]{language["null_value"]}')
+                continue
+            else:
+                break
         searched_city = read_excel(city_name)
         logger.info(f'[Modify]{language["user_input"]}:[{city_name}]')
         logger.info(f'[Modify]{language["select_a_index"]}')
-        time.sleep(0.5)
+        if not searched_city:
+            logger.error(f'[Modify]{language["no_result"]}')
+            sys.exit(1)
+        time.sleep(0.3)
         while True:
             try:
-                time.sleep(0.5)
+                time.sleep(0.3)
                 user_input = input('-->')
                 if user_input == 'q':
                     logger.info('[Quit]User quit')
@@ -633,9 +642,10 @@ def modify_config(mode: bool = False):
 
 
 if __name__ == '__main__':
-    CONFIG_NAME = 'config.yml'  # 配置文件名称 -> 用于开发时快速调试
+    CONFIG_NAME = 'config.yml'  # 配置文件名称
+    LOCATION_ID_FILE_NAME = 'china_city_list_xlsx'  # 城市id文件必须为xlsx文件
 
-    # logs未空文件夹git上传时会自动忽略此文件夹， 故添加自动创建文件夹
+    # logs为空文件夹git上传时会自动忽略此文件夹， 故添加自动创建文件夹
     if not os.path.isdir('./logs'):
         os.mkdir('./logs')
 
@@ -658,7 +668,7 @@ if __name__ == '__main__':
     logger.setLevel(logging.DEBUG)
     ConsoleLogger = logging.StreamHandler()  # 输出到终端
     ConsoleLogger.setFormatter(formatter)
-    log_name = time.strftime('%Y-%m-%d-%H')  # 一小时内使用的日志文件都是同一个
+    log_name = time.strftime('%Y-%m-%d#%H')  # 一小时内使用的日志文件都是同一个
     FileLogger = logging.handlers.RotatingFileHandler(filename=f'./logs/{log_name}.log',
                                                       maxBytes=1024000,
                                                       backupCount=5)  # 每个日志文件最大1024000字节(≈0.976563Mb)

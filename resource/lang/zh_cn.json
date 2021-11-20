@@ -44,5 +44,7 @@
   "user_input": "你输入了",
   "fill_the_config": "填写配置文件",
   "today": "今天",
-  "current_profile": "已选择的配置文件"
+  "current_profile": "已选择的配置文件",
+  "null_value": "请不要输入空值",
+  "no_result": "没有搜索到相关结果"
 }

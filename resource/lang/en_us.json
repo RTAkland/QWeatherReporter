@@ -44,5 +44,7 @@
   "user_input": "You entered",
   "fill_the_config": "Fill the configuration file.",
   "today": "Today",
-  "current_profile": "Selected profile"
+  "current_profile": "Selected profile",
+  "null_value": "Please do not enter a null value.",
+  "no_result": "Nothing has searched."
 }

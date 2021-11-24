@@ -4,7 +4,8 @@
 # @Development Tool: PyCharm
 # @Create Time: 2021/10/23
 # @File Name: QWeather.py
-import os.path
+
+import os
 import sys
 import json
 import time

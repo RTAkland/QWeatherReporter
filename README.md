@@ -1,7 +1,7 @@
 <p align="center">
     <a href="https://github.com/MarkusJoe/QWeather">
         <img src="https://img.shields.io/badge/Python-V3.10-blue.svg" alt="PythonVersion">
-        <img src="https://img.shields.io/badge/release-V2.7.0-green.svg" alt="QWeatherVersion">
+        <img src="https://img.shields.io/badge/release-V2.8.1-green.svg" alt="QWeatherVersion">
         <img src="https://img.shields.io/badge/LINCESE-Apache2.0-orange.svg" alt="LICENSE">
     </a>
 </p>
@@ -10,8 +10,8 @@
 
 ## *QWeather*
 
-> <i><a href="https://www.qweather.com/">QWeather Official Website</a></i>\
-> <i><a href="https://dev.qweather.com/">QWeather Development Platform</a></i>
+<i style="text-align: center;"><a href="https://www.qweather.com/">QWeather Official Website</a></i>\
+<i style="text-align: center;"><a href="https://dev.qweather.com/">QWeather Development Platform</a></i>
 
 </div>
 

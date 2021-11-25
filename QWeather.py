@@ -249,7 +249,7 @@ class SendWeatherMail:
                 <b>
                     <a href="https://dev.qweather.com/" style="color: black" target="_blank">QWeather</a>
                     <a style="color: black">&nbsp;·&nbsp;</a>
-                    <a href="https://github.com/MarkusJoe/HeWeatherReporter" style="color: black" target="_blank">Github Repo</a>
+                    <a href="https://github.com/MarkusJoe/QWeather" style="color: black" target="_blank">Github Repo</a>
                 </b>
             </i>
         </div>"""

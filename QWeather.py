@@ -527,24 +527,25 @@ def loop_check(mode: str, time_list: list):
     循环检测时间如果本地时间等于配置文件内填写的时间则发送一封天气信息的邮件
     :return:
     """
-    if mode == 'dev':
-        while True:
-            local_time = time.strftime("%H:%M", time.localtime())
-            time.sleep(1)
-            if local_time in time_list:
-                SendWeatherMail().dev_mode()
-                logger.info(f'{language["mail_succeed"]}')
-                logger.info(f'{language["wait_seconds"]}')
-                time.sleep(61)
-    elif mode == 'free':
-        while True:
-            local_time = time.strftime("%H:%M", time.localtime())
-            time.sleep(1)
-            if local_time in time_list:
-                SendWeatherMail().free_mode()
-                logger.info(f'{language["mail_succeed"]}')
-                logger.info(f'{language["wait_seconds"]}')
-                time.sleep(61)
+    match mode:
+        case 'dev':
+            while True:
+                local_time = time.strftime("%H:%M", time.localtime())
+                time.sleep(1)
+                if local_time in time_list:
+                    SendWeatherMail().dev_mode()
+                    logger.info(f'{language["mail_succeed"]}')
+                    logger.info(f'{language["wait_seconds"]}')
+                    time.sleep(61)
+        case 'free':
+            while True:
+                local_time = time.strftime("%H:%M", time.localtime())
+                time.sleep(1)
+                if local_time in time_list:
+                    SendWeatherMail().free_mode()
+                    logger.info(f'{language["mail_succeed"]}')
+                    logger.info(f'{language["wait_seconds"]}')
+                    time.sleep(61)
 
 
 def check_config():
@@ -603,11 +604,15 @@ def modify_config(mode: bool = False):
         while True:
             time.sleep(0.3)
             city_name = input('-->')
-            if not city_name:
-                logger.critical(f'[Modify]{language["null_value"]}')
-                continue
-            else:
-                break
+            match city_name:
+                case 'q':
+                    logger.info(f'[Modify]User quit.')
+                    sys.exit(0)
+                case '':
+                    logger.critical(f'[Modify]{language["null_value"]}')
+                    continue
+                case _:
+                    break
         searched_city = read_excel(city_name)
         logger.info(f'[Modify]{language["user_input"]}:[{city_name}]')
         logger.info(f'[Modify]{language["select_a_index"]}')
@@ -626,7 +631,7 @@ def modify_config(mode: bool = False):
                 with open(CONFIG_NAME, 'r', encoding='utf-8') as of:
                     data = YAML().load(of)
                     data['request-settings']['location'] = index[1]
-                    data['only-view-settings']['city-name'] = f'{index[2]}-{index[3]}-{index[4]}'
+                    data['only-view-settings']['city-name'] = f'{index[3]}-{index[7]}-{index[7]}'
                     data['only-view-settings']['time'] = time.strftime("%a %b %d %Y %H:%M:%S", time.localtime())
                     data['only-view-settings']['user'] = getpass.getuser()
                 with open(CONFIG_NAME, 'w', encoding='utf-8') as wf:
@@ -638,9 +643,8 @@ def modify_config(mode: bool = False):
                 logger.error(f'[Write]{language["input_type_error"]}')
                 continue
             finally:
-                if not mode:
-                    logger.info('[Done]Program has done.')
-                    sys.exit(0)
+                logger.info('[Done]Program has done.')
+                sys.exit(0)
 
 
 if __name__ == '__main__':

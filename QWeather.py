@@ -635,7 +635,7 @@ def modify_config(mode: bool = False):
                 break
             except (IndexError, ValueError) as e:
                 logger.info(e)
-                logger.error(f'[Write]{language["input_type_error"]} --> {e}')
+                logger.error(f'[Write]{language["input_type_error"]}')
                 continue
             finally:
                 if not mode:

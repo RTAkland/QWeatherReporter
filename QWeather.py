@@ -635,7 +635,7 @@ def modify_config(mode: bool = False):
                 break
             except (IndexError, ValueError) as e:
                 logger.info(e)
-                logger.error(f'[Write]{language["input_type_error"]}')
+                logger.error(f'[Write]{language["input_type_error"]} --> {e}')
                 continue
             finally:
                 if not mode:
@@ -645,7 +645,7 @@ def modify_config(mode: bool = False):
 
 if __name__ == '__main__':
     CONFIG_NAME = 'config.yml'  # 配置文件名称
-    LOCATION_ID_FILE_NAME = 'china_city_list_xlsx'  # 城市id文件必须为xlsx文件
+    LOCATION_ID_FILE_NAME = 'china_city_list.xlsx'  # 城市id文件必须为xlsx文件
 
     # logs为空文件夹git上传时会自动忽略此文件夹， 故添加自动创建文件夹
     if not os.path.isdir('./logs'):

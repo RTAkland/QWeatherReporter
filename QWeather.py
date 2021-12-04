@@ -676,8 +676,8 @@ if __name__ == '__main__':
     ConsoleLogger.setFormatter(formatter)
     log_name = time.strftime('%Y-%m-%d#%H')  # 一小时内使用的日志文件都是同一个
     FileLogger = logging.handlers.RotatingFileHandler(filename=f'./logs/{log_name}.log',
-                                                      maxBytes=1024000,
-                                                      backupCount=5)  # 每个日志文件最大1024000字节(≈0.976563Mb)
+                                                      maxBytes=102400,
+                                                      backupCount=5)  # 每个日志文件最大102400字节(100Kb)
     FileLogger.setFormatter(formatter_file)
     logger.addHandler(ConsoleLogger)
     logger.addHandler(FileLogger)

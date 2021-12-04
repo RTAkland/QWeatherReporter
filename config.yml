@@ -105,9 +105,9 @@ client-settings:
 # [标识/不填] 仅作用户读取标识
 only-view-settings:
  # 城市名
-  city-name: 黄岩-浙江省-台州
+  city-name: 黄岩-台州-台州
  # 修改时间
-  time: Thu Nov 18 2021 22:23:29
+  time: Sat Dec 04 2021 15:27:51
  # 修改用户
-  user: Tapso
+  user: rtakland
 

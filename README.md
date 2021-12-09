@@ -15,12 +15,15 @@
 
 </div>
 
-## Python版本问题
-- > 程序使用了Python3.10中的match-case语句
-- > 请使用Python3.10版本运行
-  
-## 配置文件填写问题
-- > `location`项和`only-view-settings`类不需要用户填写, 只需要打开`QWeather.py`进行自助填写
+## 问题汇总
+#### Python 版本:
+> 程序使用了Python3.10中的match-case语句
+> 请使用Python3.10版本运行
+#### 主题选择:
+> 在2.9.0之后的版本不支持自定义天气图标 只能使用最新的图标
+#### 配置填写问题:
+> `location`项和`only-view-settings`类不需要用户填写, 只需要打开`QWeather.py`进行自助填写
+
 
 ## 声明
 - > 程序作者: **RTAkland (markushammered@gmail.com)**
@@ -32,15 +35,3 @@
 - 将config.yml正确填写完成
 - 使用`pip/pip3 install -r requirements.txt` 安装需要的库
 - 运行`QWeather.py`
-
-## English README.md
-## Statement
-- > Developed by **RTAkland (markushammered@gmail.com)**
-- > The weather API from QWeather: https://qweather.com
-- > QWeather Developer Platform: https://dev.qweather.com
- 
-## How to use
-- Run program using Python3
-- Fill in the configuration file correctly
-- Use `pip/pip3 -install -r requirements.txt` to install required libraries
-- Run `QWeather.py`

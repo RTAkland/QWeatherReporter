@@ -739,7 +739,7 @@ if __name__ == '__main__':
     logger.info(f'{language["statement_2"]}')
     logger.info(f'{language["statement_3"]}')
     logger.info(f'{language["statement_4"]}')
-    logger.info(f'{language["current_profile"]}')
+    logger.info(f'{language["current_profile"]}: {CONFIG_NAME}')
 
     #  另开一个进程与主进程同时运行 --> 运行loopCheck --> 循环检查本地时间是否与配置内时间相符
     multiprocessing.Process(target=loop_check, args=(_MODE, _TIMES,)).run()

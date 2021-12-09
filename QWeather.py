@@ -30,8 +30,6 @@ class SendWeatherMail:
     def __init__(self):
         with open(CONFIG_NAME, 'r', encoding='utf-8') as config_f:
             self.config = YAML().load(config_f)
-        with open('resource/type_warning.json', 'r', encoding='utf-8') as type_f:
-            self.type_name = json.loads(type_f.read())
 
         self.location = self.config['request-settings']['location']  # 城市ID
         self.key = self.config['request-settings']['key']  # API密钥
@@ -43,15 +41,8 @@ class SendWeatherMail:
         self.password = self.config['mail-settings']['password']  # 服务器登录密码
         self.server = self.config['mail-settings']['server']  # 邮箱服务器
         self.port = self.config['mail-settings']['port']  # 邮箱端口号
-        self.icon_style = self.config['client-settings']['icon-style']  # 天气图标
         self.enableSSL = self.config['client-settings']  # 是否使用SSL连接到邮箱服务器
         self.city_name = self.config['only-view-settings']['city-name']  # 城市名称仅作邮件内容
-
-        self.style_list = ['style1', 'style2', 'style3']
-
-        # 如果配置文件内填错 默认选择第一套图标(style1)
-        if self.icon_style not in self.style_list:
-            self.icon_style = 'style1'
 
         self.dev_url = 'https://devapi.qweather.com/v7/weather/7d'  # 开发版本天气信息url
         self.free_url = 'https://devapi.qweather.com/v7/weather/3d'  # 免费版本天气信息url
@@ -259,17 +250,17 @@ class SendWeatherMail:
         # 循环将图片attach到html里
         image_count = 1
         for image_resource in icon_list:
-            with open(f'./resource/{self.icon_style}/{image_resource}.png', 'rb') as fp:
+            with open(f'./resource/icons/{image_resource}.png', 'rb') as fp:
                 MyImage = MIMEImage(fp.read())
                 MyImage.add_header('Content-ID', f'img{image_count}')
                 self.message.attach(MyImage)
                 image_count += 1
 
-        with open('resource/basic-resources/sunrise.png', 'rb') as sr_f:
+        with open('./resource/basic-resources/sunrise.png', 'rb') as sr_f:
             sunrise_img = MIMEImage(sr_f.read())
             sunrise_img.add_header('Content-ID', 'sunrise')
             self.message.attach(sunrise_img)
-        with open('resource/basic-resources/sunset.png', 'rb') as ss_f:
+        with open('./resource/basic-resources/sunset.png', 'rb') as ss_f:
             sunset_img = MIMEImage(ss_f.read())
             sunset_img.add_header('Content-ID', 'sunset')
             self.message.attach(sunset_img)
@@ -412,7 +403,7 @@ class SendWeatherMail:
 
         image_count = 1
         for image_source_free in icon_list:
-            with open(f'./resource/{self.icon_style}/{image_source_free}.png', 'rb') as file:
+            with open(f'./resource/icons/{image_source_free}.png', 'rb') as file:
                 MyImage = MIMEImage(file.read())
             MyImage.add_header('Content-ID', f'img{image_count}')
             self.message.attach(MyImage)
@@ -450,20 +441,19 @@ class SendWeatherMail:
         如果不为空则单独发送一封邮件
         :return:
         """
-        r = session.get(self.warning_url, headers=self.headers, params=self.params)
-        data = r.json()
+        r = session.get(self.warning_url, headers=self.headers, params=self.params).json()
 
-        logger.info(f'{language["request_result_warning"]}:{data["code"]}')
-        if data['warning']:
-            public_time = data['warning'][0]['pubTime']
-            title = data['warning'][0]['title']
-            start_time = data['warning'][0]['startTime']
-            end_time = data['warning'][0]['endTime']
+        logger.info(f'{language["request_result_warning"]}:{r["code"]}')
+        if r['warning']:
+            public_time = r['warning'][0]['pubTime']
+            title = r['warning'][0]['title']
+            start_time = r['warning'][0]['startTime']
+            end_time = r['warning'][0]['endTime']
             if not start_time:
                 start_time = None
             elif not end_time:
                 end_time = None
-            warning_status = data['warning'][0]['status']
+            warning_status = r['warning'][0]['status']
             if warning_status == 'update':
                 warning_status = {language["new_warning"]}
                 logger.info(f'{language["new_warning"]}')
@@ -473,10 +463,9 @@ class SendWeatherMail:
             elif warning_status == 'cancel':
                 logger.info(f'{language["warning_canceled"]}')
 
-            level = data['warning'][0]['level']
-            type_ = data['warning'][0]['type']
-            type_ = self.type_name[type_]  # 将数字type转换为文字
-            text = data['warning'][0]['text']
+            level = r['warning'][0]['level']
+            type_ = r['warning'][0]['typeName']
+            text = r['warning'][0]['text']
             self.message['Subject'] = language['subject_war']
             self.message['Subject'] = f'{title}'
             mail_html = f"""
@@ -491,7 +480,7 @@ class SendWeatherMail:
                 <h2>{title}</h2>
                 <h3>{language['release_time']}:{public_time[:10]} {level}{language['early_warning']}</h3>
                 <p>
-                    {language['warning_status']}:{warning_status} {language['warning_type']}:{type_} {language['warning_duration']}:{start_time[:10]}-{end_time[:10]}
+                    {language['warning_status']}:{warning_status} {language['warning_type']}:{type_} {language['warning_duration']}:{start_time[:10]}~{end_time[:10]}
                     <br />
                     {text}
                 </p>

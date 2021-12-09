@@ -81,13 +81,6 @@ request-settings:
 # 客户端设置
 client-settings:
 
- # [必填/只能一个] 图标风格
- # 默认: "style1"
- # 可选: "style1" , "style2" , "style3"
- # 注: style1为简约无色图标 style2为简约有色图标 style3为彩色图标
-  icon-style: style1
-
-
  # [必填/可多个] 发送邮件时间 不管有几个必须是列表
  # 默认: ['08:00', '12:00', '18:00']
  # 具体填写见 *receiver* 示例

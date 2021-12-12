@@ -570,7 +570,7 @@ def read_excel(kw: str):
     data_records = df.to_dict(orient='split')
     for i in data_records['data']:
         if kw in str(i):
-            logger.info(f'{index_count}|{i[0]}-{i[2]}-{i[4]}-{i[6]}')
+            logger.info(f' {index_count} | {i[2]}-{i[4]}-{i[6]}')
             city = [index_count, i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9]]
             index_count += 1
             city_list.append(city)

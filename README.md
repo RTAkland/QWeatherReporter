@@ -1,3 +1,5 @@
+# 这里是重构的QWeather项目分支 (未完成)
+
 <p align="center">
     <a href="https://github.com/MarkusJoe/QWeather">
         <img src="https://img.shields.io/badge/Python-V3.10-blue.svg" alt="PythonVersion">

@@ -46,5 +46,6 @@
   "today": "今天",
   "current_profile": "已选择的配置文件",
   "null_value": "请不要输入空值",
-  "no_result": "没有搜索到相关结果"
+  "no_result": "没有搜索到相关结果",
+  "config_file_read_successfully": "配置文件读取成功"
 }

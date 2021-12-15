@@ -42,9 +42,10 @@
   "select_a_index": "Select a index to write.",
   "input_a_city_name": "Choose a weather forecast area -> Input the city name to search.",
   "user_input": "You entered",
-  "fill_the_config": "Fill the configuration file.",
+  "fill_the_config": "Fill the config file.",
   "today": "Today",
   "current_profile": "Selected profile",
   "null_value": "Please do not enter a null value.",
-  "no_result": "Nothing has searched."
+  "no_result": "Nothing has searched.",
+  "config_file_read_successfully": "Read config file successfully."
 }

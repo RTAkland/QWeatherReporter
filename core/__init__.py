@@ -12,6 +12,7 @@ Check the configuration file
 import sys
 from ruamel.yaml import YAML
 from core.logger import Logger
+from core.language import Language
 
 
 with open('./config.yml', 'r') as f:

@@ -9,14 +9,16 @@
 Check the configuration file
 """
 
+import os
 import sys
-from ruamel.yaml import YAML
 from core.logger import Logger
 from core.language import Language
+from core.read_config import read_config
 
+settings = read_config()
 
-with open('./config.yml', 'r') as f:
-    settings = YAML().load(f.read())
+if not os.path.exists('./logs'):
+    os.mkdir('./logs')
 
 for mail in settings['mail-settings'].values():
     if not mail:

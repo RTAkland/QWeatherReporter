@@ -11,19 +11,19 @@ import getpass
 from core.logger import Logger
 from core.language import Language
 from core.read_excel import read_excel
+from core.read_config import read_config
 from ruamel.yaml import YAML
 
 
-def change_settings(mode: bool = False, _flag: bool = False):
+def change_settings(flag: bool = True):
     """
 
-    :param _flag:
-    :param mode:
-    :return:
+    :return: Searched results
     """
     language = Language()
+    settings = read_config()
 
-    if not _flag or not mode:  # 如果配置中location未填写或status未False则触发条件
+    if not settings[1]['mode'] or not flag:
         Logger.info(f'[Modify]{language["fill_the_config"]}')
         Logger.info(f'[Modify]{language["input_a_city_name"]}')
         while True:

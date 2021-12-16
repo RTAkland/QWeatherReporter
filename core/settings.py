@@ -18,7 +18,7 @@ from ruamel.yaml import YAML
 def change_settings(flag: bool = True):
     """
 
-    :return: Searched results
+    :return: None
     """
     language = Language()
     settings = read_config()

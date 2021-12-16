@@ -1,5 +1,3 @@
-# 这里是重构的QWeather项目分支 (未完成)
-
 <p align="center">
     <a href="https://github.com/MarkusJoe/QWeather">
         <img src="https://img.shields.io/badge/Python-V3.10-blue.svg" alt="PythonVersion">
@@ -15,6 +13,10 @@
 <i style="text-align: center;"><a href="https://www.qweather.com/">QWeather Official Website</a></i>\
 <i style="text-align: center;"><a href="https://dev.qweather.com/">QWeather Development Platform</a></i>
 
+</div>
+
+<div align="center">
+<b><i>当前分支版本为重构后的版本重构前版本请在before分支中查看<br>(重构前版本不再更新,最新版本为v2.9.0)</i></b>
 </div>
 
 ## 问题汇总

@@ -44,7 +44,7 @@ class Mail:
         dates = dev_weather[0]
         day_weathers = dev_weather[1]
         night_weathers = dev_weather[2]
-        highest_temps = [3]
+        highest_temps = dev_weather[3]
         lowest_temps = dev_weather[4]
         icons = dev_weather[5]
         sunset = dev_weather[6]
@@ -79,44 +79,44 @@ class Mail:
                     <tr>
                         <!--日期 天气 最低 最高/Date Weather LowestTemp HighestTemp-->
                         <td>今天</td>
-                        <td>{day_weathers[0]}<img src="cid:img1" width="20" alt="">/{night_weathers[0]}<img src="cid
-                        :img2" width="20" alt=""></td> <td>{lowest_temps[0]}℃</td> 
+                        <td>{day_weathers[0]}<img src="cid:img1" width="20" alt="">/{night_weathers[0]}<img src="cid:img2" 
+                        width="20" alt=""></td> <td>{lowest_temps[0]}℃</td> 
                         <td>{highest_temps[0]}℃</td>
                     </tr>
                     <tr>
                         <td>{dates[1]}</td>
-                        <td>{day_weathers[1]}<img src="cid:img3" width="20" alt="">/{night_weathers[1]}<img src="cid
-                        :img4" width="20" alt=""></td> <td>{lowest_temps[1]}℃</td> 
+                        <td>{day_weathers[1]}<img src="cid:img3" width="20" alt="">/{night_weathers[1]}<img src="cid:img4" 
+                        width="20" alt=""></td> <td>{lowest_temps[1]}℃</td> 
                         <td>{highest_temps[1]}℃</td>
                     </tr>
                         <tr>
                         <td>{dates[2]}</td>
-                        <td>{day_weathers[2]}<img src="cid:img5" width="20" alt="">/{night_weathers[2]}<img src="cid
-                        :img6" width="20" alt=""></td> <td>{lowest_temps[2]}℃</td> 
+                        <td>{day_weathers[2]}<img src="cid:img5" width="20" alt="">/{night_weathers[2]}<img src="cid:img6" 
+                        width="20" alt=""></td> <td>{lowest_temps[2]}℃</td> 
                         <td>{highest_temps[2]}℃</td>
                     </tr>
                         <tr>
                         <td>{dates[3]}</td>
-                        <td>{day_weathers[3]}<img src="cid:img7" width="20" alt="">/{night_weathers[3]}<img src="cid
-                        :img8" width="20" alt=""></td> <td>{lowest_temps[3]}℃</td> 
+                        <td>{day_weathers[3]}<img src="cid:img7" width="20" alt="">/{night_weathers[3]}<img src="cid:img8" 
+                        width="20" alt=""></td> <td>{lowest_temps[3]}℃</td> 
                         <td>{highest_temps[3]}℃</td>
                     </tr>
                         <tr>
                         <td>{dates[4]}</td>
-                        <td>{day_weathers[4]}<img src="cid:img9" width="20" alt="">/{night_weathers[4]}<img src="cid
-                        :img10" width="20" alt=""></td> <td>{lowest_temps[4]}℃</td> 
+                        <td>{day_weathers[4]}<img src="cid:img9" width="20" alt="">/{night_weathers[4]}<img src="cid:img10" 
+                        width="20" alt=""></td> <td>{lowest_temps[4]}℃</td> 
                         <td>{highest_temps[4]}℃</td>
                     </tr>
                         <tr>
                         <td>{dates[5]}</td>
-                        <td>{day_weathers[5]}<img src="cid:img11" width="20" alt="">/{night_weathers[5]}<img src="cid
-                        :img12" width="20" alt=""></td> <td>{lowest_temps[5]}℃</td> 
+                        <td>{day_weathers[5]}<img src="cid:img11" width="20" alt="">/{night_weathers[5]}<img src="cid:img12" 
+                        width="20" alt=""></td> <td>{lowest_temps[5]}℃</td> 
                         <td>{highest_temps[5]}℃</td>
                     </tr>
                         <tr>
                         <td>{dates[6]}</td>
-                        <td>{day_weathers[6]}<img src="cid:img13" width="20" alt="">/{night_weathers[6]}<img src="cid
-                        :img14" width="20" alt=""></td> <td>{lowest_temps[6]}℃</td> 
+                        <td>{day_weathers[6]}<img src="cid:img13" width="20" alt="">/{night_weathers[6]}<img src="cid:img14" 
+                        width="20" alt=""></td> <td>{lowest_temps[6]}℃</td> 
                         <td>{highest_temps[6]}℃</td>
                     </tr>
                 </table>
@@ -125,7 +125,7 @@ class Mail:
                         <th>&nbsp;</th>
                     </tr>
                     <tr>
-                        <th>风</th>
+                        <th>风速/风级/风向</th>
                         <th>相对湿度</th>
                         <th>紫外线</th>
                     </tr>
@@ -208,7 +208,7 @@ class Mail:
         dates = free_weather[0]
         day_weathers = free_weather[1]
         night_weathers = free_weather[2]
-        highest_temps = [3]
+        highest_temps = free_weather[3]
         lowest_temps = free_weather[4]
         icons = free_weather[5]
         sunset = free_weather[6]
@@ -243,20 +243,20 @@ class Mail:
                     <tr>
                         <!--日期 天气 最低 最高/Date Weather LowestTemp HighestTemp-->
                         <td>今天</td>
-                        <td>{day_weathers[0]}<img src="cid:img1" width="20" alt="">/{night_weathers[0]}<img src="cid
-                        :img2" width="20" alt=""></td> <td>{lowest_temps[0]}℃</td> 
+                        <td>{day_weathers[0]}<img src="cid:img1" width="20" alt="">/{night_weathers[0]}<img src="cid:img2" 
+                        width="20" alt=""></td> <td>{lowest_temps[0]}℃</td> 
                         <td>{highest_temps[0]}℃</td>
                     </tr>
                     <tr>
                         <td>{dates[1]}</td>
-                        <td>{day_weathers[1]}<img src="cid:img3" width="20" alt="">/{night_weathers[1]}<img src="cid
-                        :img4" width="20" alt=""></td> <td>{lowest_temps[1]}℃</td> 
+                        <td>{day_weathers[1]}<img src="cid:img3" width="20" alt="">/{night_weathers[1]}<img src="cid:img4" 
+                        width="20" alt=""></td> <td>{lowest_temps[1]}℃</td> 
                         <td>{highest_temps[1]}℃</td>
                     </tr>
                         <tr>
                         <td>{dates[2]}</td>
-                        <td>{day_weathers[2]}<img src="cid:img5" width="20" alt="">/{night_weathers[2]}<img src="cid
-                        :img6" width="20" alt=""></td> <td>{lowest_temps[2]}℃</td> 
+                        <td>{day_weathers[2]}<img src="cid:img5" width="20" alt="">/{night_weathers[2]}<img src="cid:img6" 
+                        width="20" alt=""></td> <td>{lowest_temps[2]}℃</td> 
                         <td>{highest_temps[2]}℃</td>
                 </table>
                 <table style="border: 0;text-align: center; margin:0 auto">
@@ -264,7 +264,7 @@ class Mail:
                         <th>&nbsp;</th>
                     </tr>
                     <tr>
-                        <th>风</th>
+                        <th>风速/风级/风向</th>
                         <th>相对湿度</th>
                         <th>紫外线</th>
                     </tr>

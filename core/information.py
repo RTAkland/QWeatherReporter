@@ -6,24 +6,19 @@
 # @File Name: information.py
 
 import requests
+from core import read_config
 
 
 class WeatherInfo:
-    def __init__(self, key: str, location: int, unit: str, language: str):
-        """
-
-        :param key: Key
-        :param location: City
-        :param unit: Unit
-        :param language: Language
-        """
+    def __init__(self):
+        self.config = read_config()
         self.dev = 'https://devapi.qweather.com/v7/weather/7d'
         self.free = 'https://devapi.qweather.com/v7/weather/3d'
         self.warning = 'https://devapi.qweather.com/v7/warning/now'
-        self.key = key
-        self.location = location
-        self.unit = unit
-        self.language = language
+        self.key = self.config[1]['key']
+        self.location = self.config[1]['location']
+        self.unit = self.config[1]['unit']
+        self.language = self.config[1]['lang']
         self.params = {'location': self.location,
                        'key': self.key,
                        'unit': self.unit,
@@ -118,13 +113,14 @@ class WeatherInfo:
         :return: release_time, title, status, level, type_, text, start_time, end_time
         """
         warning_res = self.session.get(self.warning, params=self.params).json()
+
         release_time = warning_res['warning'][0]['pubTime']
         title = warning_res['warning'][0]['title']
         status = warning_res['warning'][0]['status']
         level = warning_res['warning'][0]['level']
         type_ = warning_res['warning'][0]['typeName']
         text = warning_res['warning'][0]['text']
-        start_time = ['warning'][0]['startTime']
+        start_time = warning_res['warning'][0]['startTime']
         end_time = warning_res['warning'][0]['endTime']
         match start_time, end_time:
             case None, None:

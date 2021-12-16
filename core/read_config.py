@@ -11,12 +11,13 @@ from ruamel.yaml import YAML
 def read_config():
     """
 
-    :return: mail-settings, request-settings, client-settings --> 0, 1, 2
+    :return: mail-settings, request-settings, client-settings, only-view-settings --> 0, 1, 2, 3
     """
     with open('./config.yml', 'r') as conf:
         config = YAML().load(conf.read())
         mail_settings = config['mail-settings']
         request_settings = config['request-settings']
         client_settings = config['client-settings']
-    return mail_settings, request_settings, client_settings
+        only_view = config['only-view-settings']
+    return mail_settings, request_settings, client_settings, only_view
 

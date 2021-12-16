@@ -114,7 +114,7 @@ class WeatherInfo:
         """
         warning_res = self.session.get(self.warning, params=self.params).json()
 
-        release_time = warning_res['warning'][0]['pubTime']
+        release_time = warning_res['warning'][0]['pubTime'][:10]
         title = warning_res['warning'][0]['title']
         status = warning_res['warning'][0]['status']
         level = warning_res['warning'][0]['level']

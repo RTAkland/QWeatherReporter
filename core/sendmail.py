@@ -353,6 +353,16 @@ class Mail:
         start_time = info[6]
         end_time = info[7]
 
+        match status:
+            case 'update':
+                status = '预警更新'
+                Logger.info(f'{self.language["new_warning"]}')
+            case 'active':
+                status = '已有灾害'
+                Logger.info(f'{self.language["warning_updated"]}')
+            case 'cancel':
+                Logger.info(f'{self.language["warning_canceled"]}')
+
         mail_html = f"""
                     <!DOCTYPE html>
                     <html lang="zh">
@@ -398,9 +408,10 @@ class Mail:
             self.message.attach(sunset_img)
 
         try:
-            self.smtp.login(self.sender, self.password)  # 登录
-            self.smtp.sendmail(self.sender, self.receiver, self.message.as_string())  # 发送
-            Logger.info(f'{self.language["mail_succeed"]}')
+            if status != 'cancel':
+                self.smtp.login(self.sender, self.password)  # 登录
+                self.smtp.sendmail(self.sender, self.receiver, self.message.as_string())  # 发送
+                Logger.info(f'{self.language["mail_succeed"]}')
         except smtplib.SMTPException as e:  # 处理错误
             Logger.critical(f'{self.language["mail_error"]}: {e}')
             sys.exit(1)

@@ -6,18 +6,17 @@
 # @File Name: read_config.py
 
 from ruamel.yaml import YAML
-from core.language import Language
-from core.logger import Logger
 
 
 def read_config():
     """
 
-    :return: config
+    :return: mail-settings, request-settings, client-settings --> 0, 1, 2
     """
-    language = Language()
     with open('./config.yml', 'r') as conf:
         config = YAML().load(conf.read())
-        Logger.info(language['config_file_read_successfully'])
-    return config
+        mail_settings = config['mail-settings']
+        request_settings = config['request-settings']
+        client_settings = config['client-settings']
+    return mail_settings, request_settings, client_settings
 

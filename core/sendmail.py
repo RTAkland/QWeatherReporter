@@ -32,7 +32,6 @@ class Mail:
         self.message = MIMEMultipart('related')
         self.message['From'] = Header('QWeather')  # 发件人名称
         self.message['To'] = Header('All allowed User')  # 收件人显示名称
-        self.msg_content = MIMEMultipart('alternative')  # 文字目录
 
         if self.enableSSL:
             self.smtp = smtplib.SMTP_SSL(self.server, self.port)  # 登录服务器 使用SSL连接

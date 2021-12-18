@@ -9,12 +9,13 @@
 import sys
 import time
 import argparse
+from concurrent.futures import ProcessPoolExecutor
 from core.logger import Logger
 from core.language import Language
 from core.settings import change_settings
+from tests import webserver
 from core import read_config
 from core.sendmail import Mail
-from multiprocessing import Process
 
 
 def check_time():
@@ -72,8 +73,9 @@ def main():
             Logger.debug(f'{language["debug_done"]}')
         case _:
             pass
-
-    Process(target=check_time).run()
+    processes.submit(check_time)
+    if settings[2]['webserver']:
+        processes.submit(webserver.process_request())
 
     time_count = 0
     while True:
@@ -87,6 +89,7 @@ def main():
 if __name__ != '__main__':
     language = Language()
     settings = read_config()
+    processes = ProcessPoolExecutor(max_workers=3)
 
     Logger.info(f'{language["statement_1"]}')
     Logger.info(f'{language["statement_2"]}')

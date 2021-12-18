@@ -6,8 +6,11 @@
 # @File Name: logger.py
 
 from colorlog import ColoredFormatter
+from core.read_config import read_config
 import logging.handlers
 import time
+
+level = read_config()['client-settings']['level']
 
 date_format = '%H:%M:%S'
 info_format_console = '%(log_color)s[%(asctime)s] |%(filename)s[ %(lineno)-3s] |%(levelname)-8s |%(message)s'
@@ -25,7 +28,21 @@ formatter_file = logging.Formatter(fmt=info_format_file,
                                    datefmt=date_format)
 
 Logger = logging.getLogger('MainLogger')
-Logger.setLevel(logging.DEBUG)
+
+match level:
+    case 'DEBUG':
+        Logger.setLevel(logging.DEBUG)
+    case 'INFO':
+        Logger.setLevel(logging.INFO)
+    case 'WARNING':
+        Logger.setLevel(logging.WARNING)
+    case 'ERROR':
+        Logger.setLevel(logging.ERROR)
+    case 'CRITICAL':
+        Logger.setLevel(logging.CRITICAL)
+    case _:
+        Logger.setLevel(logging.DEBUG)
+
 ConsoleLogger = logging.StreamHandler()  # 输出到终端
 ConsoleLogger.setFormatter(formatter)
 log_name = time.strftime('%Y-%m-%d#%H')  # 一小时内使用的日志文件都是同一个

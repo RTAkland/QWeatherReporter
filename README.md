@@ -52,6 +52,11 @@
 - 使用`pip/pip3 install -r requirements.txt` 安装需要的库
 - 运行`QWeather.py`
 
+### 网页上查看天气
+- 将所有准备工作完成(能正常运行QWeather.py)
+- 运行QWeather.py
+- 打开浏览器输入***127.0.0.1***:7898  (127.0.0.1可以更改为部署本项目的服务器ip)
+
 
 ## 联系方式
  - 邮箱: <markushammered@gmail.com>

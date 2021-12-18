@@ -10,17 +10,23 @@
 启用等级: DEV
 """
 
+from core.read_config import read_config
 import requests
 import json
 
 
-def hourly_weather(location: int, key: str, lang: str = 'zh', unit: str = 'm'):
+def hourly_weather():
+    settings = read_config()
+    location = settings[1]['location']
+    key = settings[1]['key']
+    lang = settings[1]['lang']
+    unit = settings[1]['unit']
     r = requests.get(
         f'https://devapi.qweather.com/v7/weather/24h?location={location}&key={key}&lang={lang}&unit={unit}')
     data = json.loads(r.text)
 
     status_code = data['code']
-    updateTime = str(data['updateTime'][:-6]).replace('T', '')
+    updateTime = str(data['updateTime'][:-6])[10:].replace('T', '')
     main_data = data['hourly']  # 24
     return status_code, updateTime, main_data
 

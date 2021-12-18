@@ -10,18 +10,14 @@
 启用等级: DEV
 """
 
+from core.read_config import read_config
 import requests
 import json
-from ruamel.yaml import YAML
 
 
 def get_warning_list(_range='cn'):
-    yaml = YAML()
-    with open('./config.yml', 'r', encoding='utf-8') as f:
-        config = yaml.load(f.read())
-        key = config['request-settings']['key']
-    session = requests.Session()
-    session.trust_env = False
-    r = session.get(f'https://devapi.qweather.com/v7/warning/list?range={_range}&key={key}')
+    settings = read_config()
+    key = settings[1]['key']
+    r = requests.get(f'https://devapi.qweather.com/v7/warning/list?range={_range}&key={key}')
     _data = json.loads(r.text)
     return _data['code'], _data['warningLocList'][0]['locationId']

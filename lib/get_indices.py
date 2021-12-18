@@ -11,11 +11,17 @@
 启用等级: DEV
 """
 
+from core.read_config import read_config
 import requests
 import json
 
 
-def indices(location: int, key: str, lang: str = 'zh', unit: str = 'm'):
+def indices():
+    settings = read_config()
+    location = settings[1]['location']
+    key = settings[1]['key']
+    lang = settings[1]['lang']
+    unit = settings[1]['unit']
     r = requests.get(
         f'https://devapi.qweather.com/v7/indices/1d?type=0&location={location}&key={key}&lang={lang}&unit={unit}')
     data = json.loads(r.text)

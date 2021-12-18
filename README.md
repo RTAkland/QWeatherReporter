@@ -1,7 +1,7 @@
 <p align="center">
     <a href="https://github.com/MarkusJoe/QWeather">
         <img src="https://img.shields.io/badge/Python-3.10.x-blue.svg" alt="PythonVersion">
-        <img src="https://img.shields.io/badge/release-3.0.2b-green.svg" alt="QWeatherVersion">
+        <img src="https://img.shields.io/badge/release-3.1.0b-green.svg" alt="QWeatherVersion">
         <img src="https://img.shields.io/badge/LINCESE-Apache2.0-orange.svg" alt="LICENSE">
     </a>
 </p>
@@ -20,7 +20,18 @@
 <b><i><a href="https://markusjoe.github.io/" target="_blank">点击跳转到帮助文档</a></i></b>
 </div>
 
-## 问题汇总
+### 开源
+- 本项目以[Apache-2.0](./LICENSE)许可开源, 即:
+  - 你可以直接使用该项目提供的功能, 无需任何授权
+  - 你可以在**注明来源版权信息**的情况下对源代码进行任意分发和修改以及衍生
+
+### 已实现功能
+- [x] 发送免费版&开发板右键
+- [x] 间隔10分钟请求一次自然灾害预警信息
+- [x] 在网页上快速查看天气
+- [ ] ~~推送到QQ(咕咕咕)~~
+
+### 问题汇总
 #### Python 版本:
 > 程序使用了Python3.10中的match-case语句
 > 请使用Python3.10版本运行
@@ -40,3 +51,8 @@
 - 将config.yml正确填写完成
 - 使用`pip/pip3 install -r requirements.txt` 安装需要的库
 - 运行`QWeather.py`
+
+
+## 联系方式
+ - 邮箱: <markushammered@gmail.com>
+

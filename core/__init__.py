@@ -15,6 +15,8 @@ from core.logger import Logger
 from core.language import Language
 from core.read_config import read_config
 
+Logger.info('Be imported')
+
 settings = read_config()
 
 if not os.path.exists('./logs'):

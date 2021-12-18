@@ -7,4 +7,4 @@
 
 from core.logger import Logger
 
-Logger.info('lib was called')
+Logger.info('Be imported')

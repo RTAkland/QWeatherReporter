@@ -10,7 +10,7 @@ from core.read_config import read_config
 import logging.handlers
 import time
 
-level = read_config()['client-settings']['level']
+level = read_config()[2]['level']
 
 date_format = '%H:%M:%S'
 info_format_console = '%(log_color)s[%(asctime)s] |%(filename)s[ %(lineno)-3s] |%(levelname)-8s |%(message)s'

@@ -3,9 +3,11 @@
 # @Author: markushammered@gmail.com
 # @Development Tool: PyCharm
 # @Create Time: 2021/12/18
-# @File Name: web_weather.py
+# @File Name: webserver.py
+
 
 import socket
+import sys
 from core.logger import Logger
 from core.read_config import read_config
 from core.information import WeatherInfo
@@ -47,6 +49,7 @@ def build_html():
                     <meta charset="UTF-8">
                     <title>Title</title>
                 </head>
+                <body>
                 <p style="text-align: center"><i><b>地区:{city}</b></i></p>
                 <br />
                 <table style="border: 0; text-align: center; margin:0 auto">
@@ -161,7 +164,9 @@ def build_html():
                             <a href="https://github.com/MarkusJoe/QWeather" style="color: black" target="_blank">Github Repo</a>
                         </b>
                     </i>
-                </div>"""
+                </div>
+                </body>
+                </html>"""
             return html
         case 'free':
             dev_weather = WeatherInfo().free_version()
@@ -189,6 +194,7 @@ def build_html():
                         <meta charset="UTF-8">
                         <title>Title</title>
                     </head>
+                    <body>
                     <p style="text-align: center"><i><b>地区:{city}</b></i></p>
                     <br />
                     <table style="border: 0; text-align: center; margin:0 auto">
@@ -274,28 +280,33 @@ def build_html():
                                 <a href="https://github.com/MarkusJoe/QWeather" style="color: black" target="_blank">Github Repo</a>
                             </b>
                         </i>
-                    </div>"""
+                    </div>
+                    </body>
+                    </html>"""
             return html
         case _:
             return "You hadn't selected a mode"
 
 
 def process_request():
-    while True:
-        c, a = server.accept()
-        data = str(c.recv(1024)).split(':')[0][6:][:-17]
-        html = build_html()
-        if data == '/':
-            c.send('HTTP1.1/ 200 OK\r\n\r\n'.encode('utf-8'))
-            c.send(html.encode('utf-8'))
-            Logger.info(f'{a}: Get {data} --by browser')
-        else:
-            print(data)
-            try:
-                with open(f'.{data}', 'rb') as f:
-                    c.send('HTTP1.1/ 200 OK\r\n\r\n'.encode('utf-8'))
-                    c.send(f.read())
-                    Logger.info(f'{a}: Get {data} --by browser')
-            except FileNotFoundError:
-                c.send(f'HTTP1.1/ 404 Not Found\r\n\r\n{html}'.encode('utf-8'))
-        c.close()
+    try:
+        while True:
+            c, a = server.accept()
+            data = str(c.recv(1024)).split(':')[0][6:][:-17]
+            html = build_html()
+            if data == '/':
+                c.send('HTTP1.1/ 200 OK\r\n\r\n'.encode('utf-8'))
+                c.send(html.encode('utf-8'))
+                Logger.info(f'{a}: Get {data} --by browser')
+            else:
+                try:
+                    with open(f'.{data}', 'rb') as f:
+                        c.send('HTTP1.1/ 200 OK\r\n\r\n'.encode('utf-8'))
+                        c.send(f.read())
+                        Logger.info(f'{a}: Get {data} --by browser')
+                except FileNotFoundError:
+                    c.send(f'HTTP1.1/ 404 Not Found\r\n\r\n{html}'.encode('utf-8'))
+            c.close()
+    except BrokenPipeError:
+        Logger.critical('Link speed was too fast! Subprocess:webserver exited')
+        sys.exit(1)

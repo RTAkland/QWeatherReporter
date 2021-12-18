@@ -13,7 +13,7 @@ from concurrent.futures import ProcessPoolExecutor
 from core.logger import Logger
 from core.language import Language
 from core.settings import change_settings
-from tests import webserver
+from lib import webserver
 from core import read_config
 from core.sendmail import Mail
 

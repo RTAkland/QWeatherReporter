@@ -16,7 +16,8 @@
 </div>
 
 <div align="center">
-<b><i>当前分支版本为重构后的版本重构前版本请在before分支中查看<br>(重构前版本不再更新,最新版本为v2.9.0)</i></b>
+<b><i>当前分支版本为重构后的版本重构前版本请在before分支中查看<br>(重构前版本不再更新,最新版本为v2.9.0)</i></b><br>
+<b><i><a href="https://markusjoe.github.io/" target="_blank">点击跳转到帮助文档</a></i></b>
 </div>
 
 ## 问题汇总

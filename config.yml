@@ -95,6 +95,12 @@ client-settings:
  # 填错默认 "zh_cn"
   language: zh_cn
 
+ # [必填/只能一个] 日志等级
+ # 默认: DEBUG
+ # 可选: "DEBUG" "INFO" "WARNING" "ERROR" "CRITICAL"
+  level: DEBUG
+
+
 # [标识/不填] 仅作用户读取标识
 only-view-settings:
  # 城市名

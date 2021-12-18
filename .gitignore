@@ -1,7 +1,5 @@
 *.yml
 !config.yml
-*.token
-*.zip
 *.log
 *.log.*
 **/__pycache__

@@ -12,7 +12,7 @@ from core.language import Language
 
 def read_excel(kw: str):
     """
-    Read xlsx file and return searched results
+    读取china_city_list.xlsx并搜索匹配关键字的结果并输出到终端
     :param kw: keyword
     :return: city_list
     """

@@ -10,6 +10,10 @@ import json
 
 
 def Language():
+    """
+    读取配置文件中的语言选项并返回相对因的语言文件的读取结果
+    :return:
+    """
     with open('./config.yml', 'r', encoding='utf-8') as lang:
         config = YAML().load(lang.read())
         language_sel = config['client-settings']['language']

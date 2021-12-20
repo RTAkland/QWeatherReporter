@@ -39,6 +39,10 @@ class Mail:
             self.smtp = smtplib.SMTP(self.server, self.port)  # 登录邮箱服务器 不使用SSL连接
 
     def dev_version(self):
+        """
+        开发者版本
+        :return:
+        """
         dev_weather = WeatherInfo().dev_version()
         dates = dev_weather[0]
         day_weathers = dev_weather[1]
@@ -203,6 +207,10 @@ class Mail:
             sys.exit(1)
 
     def free_version(self):
+        """
+        免费版本
+        :return:
+        """
         free_weather = WeatherInfo().free_version()
         dates = free_weather[0]
         day_weathers = free_weather[1]
@@ -342,6 +350,10 @@ class Mail:
             sys.exit(1)
 
     def warning_(self):
+        """
+        自然灾害预警
+        :return:
+        """
         info = WeatherInfo().warning_()
         release_time = info[0]
         title = info[1]

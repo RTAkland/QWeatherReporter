@@ -10,10 +10,11 @@ from ruamel.yaml import YAML
 
 def read_config():
     """
-
+    读取配置文件并返回读取到的内容同
     :return: mail-settings, request-settings, client-settings, only-view-settings --> 0, 1, 2, 3
     """
-    with open('./config.yml', 'r') as conf:
+    config_file = 'config.yml'
+    with open(f'./{config_file}', 'r') as conf:
         config = YAML().load(conf.read())
         mail_settings = config['mail-settings']
         request_settings = config['request-settings']

@@ -16,6 +16,10 @@ import json
 
 
 def hourly_weather():
+    """
+    获取24小时的天气
+    :return:
+    """
     settings = read_config()
     location = settings[1]['location']
     key = settings[1]['key']

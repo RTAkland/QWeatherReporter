@@ -16,6 +16,10 @@ import json
 
 
 def real_time_air_quality():
+    """
+    获取实时的空气质量数据
+    :return:
+    """
     settings = read_config()
     location = settings[1]['location']
     key = settings[1]['key']

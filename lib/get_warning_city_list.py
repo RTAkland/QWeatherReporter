@@ -16,6 +16,11 @@ import json
 
 
 def get_warning_list(_range='cn'):
+    """
+    获取当前正在发送自然灾害的城市id列表
+    :param _range: Range
+    :return:
+    """
     settings = read_config()
     key = settings[1]['key']
     r = requests.get(f'https://devapi.qweather.com/v7/warning/list?range={_range}&key={key}')

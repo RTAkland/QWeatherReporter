@@ -17,6 +17,10 @@ import json
 
 
 def indices():
+    """
+    获取生活建议
+    :return:
+    """
     settings = read_config()
     location = settings[1]['location']
     key = settings[1]['key']

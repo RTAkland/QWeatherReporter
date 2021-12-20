@@ -6,7 +6,7 @@
 # @File Name: information.py
 
 import requests
-from core import read_config
+from core.read_config import read_config
 
 
 class WeatherInfo:

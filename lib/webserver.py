@@ -310,3 +310,6 @@ def process_request():
     except BrokenPipeError:
         Logger.critical('Link speed was too fast! Subprocess:webserver exited')
         sys.exit(1)
+    except IOError:
+        Logger.critical('An IO Error')
+        sys.exit(1)

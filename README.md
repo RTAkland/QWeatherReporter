@@ -1,7 +1,7 @@
 <p align="center">
     <a href="https://github.com/MarkusJoe/QWeather">
         <img src="https://img.shields.io/badge/Python-3.10.x-blue.svg" alt="PythonVersion">
-        <img src="https://img.shields.io/badge/release-3.1.0b-green.svg" alt="QWeatherVersion">
+        <img src="https://img.shields.io/badge/release-3.1.1b-green.svg" alt="QWeatherVersion">
         <img src="https://img.shields.io/badge/LINCESE-Apache2.0-orange.svg" alt="LICENSE">
     </a>
 </p>

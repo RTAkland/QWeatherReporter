@@ -28,5 +28,8 @@
   "no_result": "Nothing has searched.",
   "config_file_read_successfully": "Read config file successfully.",
   "language_file_read_successfully": "Multi-language module load successfully",
-  "language_not_filled": "Language hasn't filled, default: zh_cn"
+  "language_not_filled": "Language hasn't filled, default: zh_cn.",
+  "no_location": "You haven't fill the location in the config file.",
+  "change_setting": "You are changing setting.",
+  "exit": "Exited."
 }

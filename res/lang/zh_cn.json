@@ -28,5 +28,7 @@
   "no_result": "没有搜索到相关结果",
   "config_file_read_successfully": "配置文件读取成功",
   "language_file_read_successfully": "多语言模块加载成功",
-  "language_not_filled": "语言选项为填写完成或填写错误, 默认zh_cn"
+  "language_not_filled": "语言选项为填写完成或填写错误, 默认zh_cn",
+  "change_setting": "更改设置",
+  "exit": "已退出"
 }

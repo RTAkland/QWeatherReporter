@@ -14,13 +14,14 @@ from core.logger import Logger
 from core.language import Language
 from core.settings import change_settings
 from lib import webserver
-from core import read_config
+from core.read_config import read_config
 from core.sendmail import Mail
 
 
 def check_time():
     """
-    if the local time is the time in config, send a mail
+    通过多进程让函数和主程序并行,
+    并持续检测本地计算机时间是否和配置文件内填写的发送时间一致
     :return:
     """
     mode = settings[1]['mode']
@@ -46,7 +47,42 @@ def check_time():
                     time.sleep(60)
 
 
+def check_config():
+    """
+    返回配置文件中的location项是否填写
+    :return: True or False
+    """
+    location = settings[1]['location']
+    if location:
+        return True
+    else:
+        return False
+
+
+def setting():
+    """
+    检查配置文件是否填写完成
+    :return:
+    """
+    for mail in settings[0].values():
+        if not mail:
+            Logger.critical('mail-settings 有未填写项目')
+            sys.exit(1)
+    for request in settings[1].values():
+        if not request:
+            Logger.critical('request-settings 有未填写项目')
+            sys.exit(1)
+    for other in settings[1].values():
+        if not other:
+            Logger.critical('client-settings 有未填写项目')
+            sys.exit(1)
+
+
 def main():
+    """
+    主程序
+    :return:
+    """
     parser = argparse.ArgumentParser()
     arg_keywords = ['free', 'dev', 'warning', 'setting']
     parser.add_argument('-t',
@@ -69,7 +105,10 @@ def main():
             Logger.debug(f'{language["debug_done"]}')
             sys.exit(0)
         case 'setting':
-            change_settings(False)
+            if check_config():
+                setting()
+            else:
+                change_settings()
             Logger.debug(f'{language["debug_done"]}')
         case _:
             pass

@@ -13,9 +13,10 @@ from concurrent.futures import ProcessPoolExecutor
 from core.logger import Logger
 from core.language import Language
 from core.settings import change_settings
-from lib import webserver
 from core.read_config import read_config
 from core.sendmail import Mail
+from lib.get_host_ip import get_host_ip
+from lib import webservice
 
 
 def check_time():
@@ -113,8 +114,9 @@ def main():
         case _:
             pass
     processes.submit(check_time)
-    if settings[2]['webserver']:
-        processes.submit(webserver.process_request())
+    if settings[2]['webservice']:
+        processes.submit(webservice.process_request())
+    Logger.info(f'{language["webservice_ip"]}:{get_host_ip()}')
 
     time_count = 0
     while True:

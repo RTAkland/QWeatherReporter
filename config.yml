@@ -103,7 +103,7 @@ client-settings:
  # [选填/只能一个] 开启本地网页快速查看天气
  # 默认: False
  # 可选: "True" "False"
-  webserver: false
+  webservice: false
 
 
 # [标识/不填] 仅作用户读取标识

@@ -105,6 +105,11 @@ client-settings:
  # 可选: "True" "False"
   webservice: false
 
+ # [必填/只能一个] 是否使用SSL 连接到邮箱服务器
+ # 默认 True
+ # 可选: "True" "False"
+  SSL: True
+
 
 # [标识/不填] 仅作用户读取标识
 only-view-settings:

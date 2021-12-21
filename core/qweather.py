@@ -116,7 +116,7 @@ def main():
     processes.submit(check_time)
     if settings[2]['webservice']:
         processes.submit(webservice.process_request())
-    Logger.info(f'{language["webservice_ip"]}:{get_host_ip()}')
+    Logger.info(f'{language["webservice_ip"]}:{get_host_ip()}:7898')
 
     time_count = 0
     while True:

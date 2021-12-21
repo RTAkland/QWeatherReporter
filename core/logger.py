@@ -13,7 +13,7 @@ import time
 level = read_config()[2]['level']
 
 date_format = '%H:%M:%S'
-info_format_console = '%(log_color)s[%(asctime)s] |%(filename)s[ %(lineno)-3s] |%(levelname)-8s |%(message)s'
+info_format_console = '%(log_color)s[%(asctime)s] |%(filename)s[%(lineno)-3s] |%(levelname)-8s |%(message)s'
 info_format_file = '[%(asctime)s] |%(filename)s[%(funcName)sline:%(lineno)d] |%(levelname)-8s |%(message)s'
 formatter = ColoredFormatter(fmt=info_format_console,
                              datefmt=date_format,

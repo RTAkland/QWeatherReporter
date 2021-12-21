@@ -30,5 +30,6 @@
   "language_file_read_successfully": "多语言模块加载成功",
   "language_not_filled": "语言选项为填写完成或填写错误, 默认zh_cn",
   "change_setting": "更改设置",
-  "exit": "已退出"
+  "exit": "已退出",
+  "webservice_ip": "webservice地址"
 }

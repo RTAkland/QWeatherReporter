@@ -31,5 +31,6 @@
   "language_not_filled": "Language hasn't filled, default: zh_cn.",
   "no_location": "You haven't fill the location in the config file.",
   "change_setting": "You are changing setting.",
-  "exit": "Exited."
+  "exit": "Exited.",
+  "webservice_ip": "Local webservice ip"
 }

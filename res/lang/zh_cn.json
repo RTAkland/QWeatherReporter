@@ -31,5 +31,7 @@
   "language_not_filled": "语言选项为填写完成或填写错误, 默认zh_cn",
   "change_setting": "更改设置",
   "exit": "已退出",
-  "webservice_ip": "webservice地址"
+  "webservice_ip": "webservice地址",
+  "connection_speed_too_fast": "连接速度过快, 子进程:webservice.py 已退出",
+  "an_io_error": "一个IO错误"
 }

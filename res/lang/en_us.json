@@ -32,5 +32,7 @@
   "no_location": "You haven't fill the location in the config file.",
   "change_setting": "You are changing setting.",
   "exit": "Exited.",
-  "webservice_ip": "Local webservice ip"
+  "webservice_ip": "Local webservice ip",
+  "connection_speed_too_fast": "Connection speed is too fast, subprocess: webservice has exited.",
+  "an_io_error": "An IO error."
 }

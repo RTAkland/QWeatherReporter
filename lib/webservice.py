@@ -11,14 +11,21 @@ import sys
 from core.logger import Logger
 from core.read_config import read_config
 from core.information import WeatherInfo
+from core.language import Language
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-server.bind(('127.0.0.1', 7898))
+server.bind(('localhost', 7898))
 server.listen(5)
+
+language = Language()
 
 
 def build_html():
+    """
+    构建html主体
+    :return:
+    """
     settings = read_config()
     city = settings[3]['city-name']
     mode = settings[1]['mode']
@@ -289,16 +296,20 @@ def build_html():
 
 
 def process_request():
+    """
+    处理请求
+    :return:
+    """
     try:
         while True:
             c, a = server.accept()
             data = str(c.recv(1024)).split(':')[0][6:][:-17]
             html = build_html()
-            if data == '/':
+            if data == '/':  # 判断用户请求的目标是否为根目录, 如果是则返回html; 如果不是则继续判断
                 c.send('HTTP1.1/ 200 OK\r\n\r\n'.encode('utf-8'))
                 c.send(html.encode('utf-8'))
                 Logger.info(f'{a}: Get {data} --by browser')
-            else:
+            else:  # 继续判断用户请求的文件是否存在
                 try:
                     with open(f'.{data}', 'rb') as f:
                         c.send('HTTP1.1/ 200 OK\r\n\r\n'.encode('utf-8'))
@@ -308,8 +319,8 @@ def process_request():
                     c.send(f'HTTP1.1/ 404 Not Found\r\n\r\n{html}'.encode('utf-8'))
             c.close()
     except BrokenPipeError:
-        Logger.critical('Link speed was too fast! Subprocess:webserver exited')
+        Logger.critical(f'{language["connection_speed_too_fast"]}')
         sys.exit(1)
     except IOError:
-        Logger.critical('An IO Error')
+        Logger.critical(f'{language["an_io_error"]}')
         sys.exit(1)

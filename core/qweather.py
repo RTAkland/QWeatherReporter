@@ -106,17 +106,18 @@ def main():
             Logger.debug(f'{language["debug_done"]}')
             sys.exit(0)
         case 'setting':
+            change_settings()
+            Logger.debug(f'{language["debug_done"]}')
+        case _:
             if check_config():
                 setting()
             else:
                 change_settings()
-            Logger.debug(f'{language["debug_done"]}')
-        case _:
-            pass
+
     processes.submit(check_time)
     if settings[2]['webservice']:
+        Logger.info(f'{language["webservice_ip"]}:{get_host_ip()}:7898')
         processes.submit(webservice.process_request())
-    Logger.info(f'{language["webservice_ip"]}:{get_host_ip()}:7898')
 
     time_count = 0
     while True:

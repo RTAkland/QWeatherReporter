@@ -8,7 +8,7 @@
 
 <div align="center">
 
-## *QWeather*
+## *QWeatherReporter*
 
 <i style="text-align: center;"><a href="https://www.qweather.com/">QWeather Official Website</a></i>\
 <i style="text-align: center;"><a href="https://dev.qweather.com/">QWeather Development Platform</a></i>
@@ -19,6 +19,12 @@
 <b><i>当前分支版本为重构后的版本重构前版本请在before分支中查看<br>(重构前版本不再更新,最新版本为v2.9.0)</i></b><br>
 <b><i><a href="https://markusjoe.github.io/" target="_blank">点击跳转到帮助文档</a></i></b>
 </div>
+
+## 声明
+- > 程序作者: **RTAkland (markushammered@gmail.com)**
+- > 和风天气开发者平台：https://dev.qweather.com
+- > 和风天气官网: https://qweather.com
+
 
 ### 开源
 - 本项目以[Apache-2.0](./LICENSE)许可开源, 即:
@@ -40,12 +46,6 @@
 #### 配置填写问题:
 > `location`项和`only-view-settings`类不需要用户填写, 只需要打开`QWeather.py`进行自助填写
 
-
-## 声明
-- > 程序作者: **RTAkland (markushammered@gmail.com)**
-- > 和风天气开发者平台：https://dev.qweather.com
-- > 和风天气官网: https://qweather.com
-
 ## 如何使用
 - 程序基于python3.10开发 务必使用python3.10版本运行
 - 将config.yml正确填写完成
@@ -55,7 +55,8 @@
 ### 网页上查看天气
 - 将所有准备工作完成(能正常运行QWeather.py)
 - 运行QWeather.py
-- 打开浏览器输入***127.0.0.1***:7898  (127.0.0.1可以更改为部署本项目的服务器ip)
+- 打开浏览器输入**127.0.0.1:7898**
+>127.0.0.1可以更改为部署本项目的服务器ip, 7898端口不能被其他程序占用或不开放此端口
 
 
 ## 联系方式

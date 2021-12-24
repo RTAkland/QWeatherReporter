@@ -16,6 +16,7 @@ from core.logger import Logger
 from core.language import Language
 from core.information import WeatherInfo
 from core.read_config import read_config
+from lib.hitokoto import hitokoto
 
 
 class Mail:
@@ -32,6 +33,8 @@ class Mail:
         self.message = MIMEMultipart('related')
         self.message['From'] = Header('QWeather')  # 发件人名称
         self.message['To'] = Header('All allowed User')  # 收件人显示名称
+
+        self.hitokoto = hitokoto()  # 一言
 
         if self.enableSSL:
             self.smtp = smtplib.SMTP_SSL(self.server, self.port)  # 登录服务器 使用SSL连接
@@ -128,8 +131,8 @@ class Mail:
                         <th>&nbsp;</th>
                     </tr>
                     <tr>
-                        <th>风速/风级/风向</th>
-                        <th>相对湿度</th>
+                        <th>风速/级/向</th>
+                        <th>湿度</th>
                         <th>紫外线</th>
                     </tr>
                     <tr>
@@ -142,8 +145,8 @@ class Mail:
                     </tr>
                     <tr>
                         <th>能见度</th>
-                        <th>大气压强</th>
-                        <th>相对云量</th>
+                        <th>压强</th>
+                        <th>云量</th>
                     </tr>
                     <tr>
                         <td>{vis}km&nbsp;</td>
@@ -166,9 +169,13 @@ class Mail:
                         <td>&nbsp;{sunset}&nbsp;</td>
                     </tr>
                 </table>
+                <br />
+                <div style="text-align: center" id="hitokoto">
+                    <p>
+                        {self.hitokoto}
+                    </p>
+                </div>
                 <div style="text-align: center;" id="About">
-                    <br />
-                    <br />
                     <br />
                     <i>
                         <b>
@@ -271,8 +278,8 @@ class Mail:
                         <th>&nbsp;</th>
                     </tr>
                     <tr>
-                        <th>风速/风级/风向</th>
-                        <th>相对湿度</th>
+                        <th>风速/级/向</th>
+                        <th>湿度</th>
                         <th>紫外线</th>
                     </tr>
                     <tr>
@@ -285,8 +292,8 @@ class Mail:
                     </tr>
                     <tr>
                         <th>能见度</th>
-                        <th>大气压强</th>
-                        <th>相对云量</th>
+                        <th>压强</th>
+                        <th>云量</th>
                     </tr>
                     <tr>
                         <td>{vis}km&nbsp;</td>
@@ -309,9 +316,13 @@ class Mail:
                         <td>&nbsp;{sunset}&nbsp;</td>
                     </tr>
                 </table>
+                <br />
+                <div style="text-align: center" id="hitokoto">
+                    <p>
+                        {self.hitokoto}
+                    </p>
+                </div>
                 <div style="text-align: center;" id="About">
-                    <br />
-                    <br />
                     <br />
                     <i>
                         <b>

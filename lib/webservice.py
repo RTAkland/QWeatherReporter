@@ -54,7 +54,7 @@ def build_html():
                 <html lang="en">
                 <head>
                     <meta charset="UTF-8">
-                    <title>Title</title>
+                    <title>QWeather|网页查看天气服务</title>
                 </head>
                 <body>
                 <p style="text-align: center"><i><b>地区:{city}</b></i></p>
@@ -122,8 +122,8 @@ def build_html():
                         <th>&nbsp;</th>
                     </tr>
                     <tr>
-                        <th>风速/风级/风向</th>
-                        <th>相对湿度</th>
+                        <th>风速/级/向</th>
+                        <th>湿度</th>
                         <th>紫外线</th>
                     </tr>
                     <tr>
@@ -136,8 +136,8 @@ def build_html():
                     </tr>
                     <tr>
                         <th>能见度</th>
-                        <th>大气压强</th>
-                        <th>相对云量</th>
+                        <th>压强</th>
+                        <th>云量</th>
                     </tr>
                     <tr>
                         <td>{vis}km&nbsp;</td>
@@ -199,7 +199,7 @@ def build_html():
                     <html lang="en">
                     <head>
                         <meta charset="UTF-8">
-                        <title>Title</title>
+                        <title>QWeather|网页查看天气服务</title>
                     </head>
                     <body>
                     <p style="text-align: center"><i><b>地区:{city}</b></i></p>
@@ -252,8 +252,8 @@ def build_html():
                         </tr>
                         <tr>
                             <th>能见度</th>
-                            <th>大气压强</th>
-                            <th>相对云量</th>
+                            <th>压强</th>
+                            <th>云量</th>
                         </tr>
                         <tr>
                             <td>{vis}km&nbsp;</td>
@@ -308,13 +308,13 @@ def process_request():
             if data == '/':  # 判断用户请求的目标是否为根目录, 如果是则返回html; 如果不是则继续判断
                 c.send('HTTP1.1/ 200 OK\r\n\r\n'.encode('utf-8'))
                 c.send(html.encode('utf-8'))
-                Logger.info(f'{a}: Get {data} --by browser')
+                Logger.info(f'{language["get_resource"]} {data} {language["get_resource_from"]} {a[0]}:{a[1]}')
             else:  # 继续判断用户请求的文件是否存在
                 try:
                     with open(f'.{data}', 'rb') as f:
                         c.send('HTTP1.1/ 200 OK\r\n\r\n'.encode('utf-8'))
                         c.send(f.read())
-                        Logger.info(f'{a}: Get {data} --by browser')
+                        Logger.info(f'{language["get_resource"]} {data} {language["get_resource_from"]} {a[0]}:{a[1]}')
                 except FileNotFoundError:
                     c.send(f'HTTP1.1/ 404 Not Found\r\n\r\n{html}'.encode('utf-8'))
             c.close()

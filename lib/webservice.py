@@ -7,7 +7,7 @@
 
 
 import socket
-import sys
+import threading
 from core.logger import Logger
 from core.read_config import read_config
 from core.information import WeatherInfo
@@ -15,7 +15,7 @@ from core.language import Language
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-server.bind(('localhost', 7898))
+server.bind(('127.0.0.1', 7898))
 server.listen(5)
 
 language = Language()
@@ -295,32 +295,42 @@ def build_html():
             return "You hadn't selected a mode"
 
 
-def process_request():
+def process_requests(c, a):
     """
     处理请求
+    :param c: connection
+    :param a: address
     :return:
     """
     try:
-        while True:
-            c, a = server.accept()
-            data = str(c.recv(1024)).split(':')[0][6:][:-17]
-            html = build_html()
-            if data == '/':  # 判断用户请求的目标是否为根目录, 如果是则返回html; 如果不是则继续判断
-                c.send('HTTP1.1/ 200 OK\r\n\r\n'.encode('utf-8'))
-                c.send(html.encode('utf-8'))
-                Logger.info(f'{language["get_resource"]} {data} {language["get_resource_from"]} {a[0]}:{a[1]}')
-            else:  # 继续判断用户请求的文件是否存在
-                try:
-                    with open(f'.{data}', 'rb') as f:
-                        c.send('HTTP1.1/ 200 OK\r\n\r\n'.encode('utf-8'))
-                        c.send(f.read())
-                        Logger.info(f'{language["get_resource"]} {data} {language["get_resource_from"]} {a[0]}:{a[1]}')
-                except FileNotFoundError:
-                    c.send(f'HTTP1.1/ 404 Not Found\r\n\r\n{html}'.encode('utf-8'))
-            c.close()
+        data = str(c.recv(1024)).split(':')[0][6:][:-17]
+        html = build_html()
+        if data == '/' or '':  # 判断用户请求的目标是否为根目录, 如果是则返回html; 如果不是则继续判断
+            c.sendto('HTTP1.1/ 200 OK\r\n\r\n'.encode('utf-8'), a)
+            c.sendto(html.encode('utf-8'), a)
+            Logger.info(f'{language["get_resource"]} {data} {language["get_resource_from"]} {a[0]}:{a[1]}')
+        else:  # 继续判断用户请求的文件是否存在
+            try:
+                with open(f'.{data}', 'rb') as f:
+                    c.sendto('HTTP1.1/ 200 OK\r\n\r\n'.encode('utf-8'), a)
+                    c.sendto(f.read(), a)
+                    Logger.info(f'{language["get_resource"]} {data} {language["get_resource_from"]} {a[0]}:{a[1]}')
+            except FileNotFoundError:
+                c.sendto(f'HTTP1.1/ 404 Not Found\r\n\r\n{html}'.encode('utf-8'), a)
     except BrokenPipeError:
-        Logger.critical(f'{language["connection_speed_too_fast"]}')
-        sys.exit(1)
+        Logger.error(f'{language["connection_speed_too_fast"]}')
     except IOError:
-        Logger.critical(f'{language["an_io_error"]}')
-        sys.exit(1)
+        Logger.error(f'{language["an_io_error"]}')
+    finally:
+        c.close()
+        return
+
+
+def accept_requests():
+    """
+    接受请求
+    :return:
+    """
+    while True:
+        c, a = server.accept()
+        threading.Thread(target=process_requests, args=(c, a,)).start()

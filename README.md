@@ -1,7 +1,7 @@
 <p align="center">
     <a href="https://github.com/MarkusJoe/QWeather">
         <img src="https://img.shields.io/badge/Python-3.10.x-blue.svg" alt="PythonVersion">
-        <img src="https://img.shields.io/badge/release-3.2.0b-green.svg" alt="QWeatherVersion">
+        <img src="https://img.shields.io/badge/release-3.2.0-green.svg" alt="QWeatherVersion">
         <img src="https://img.shields.io/badge/LINCESE-Apache2.0-orange.svg" alt="LICENSE">
     </a>
 </p>
@@ -32,15 +32,15 @@
   - 你可以在**注明来源版权信息**的情况下对源代码进行任意分发和修改以及衍生
 
 ### 已实现功能
-- [x] 发送免费版&开发板右键
+- [x] 发送免费版&开发版天气预报功能
 - [x] 间隔10分钟请求一次自然灾害预警信息
 - [x] 在网页上快速查看天气
 - [ ] ~~推送到QQ(咕咕咕)~~
 
 ### 问题汇总
 #### Python 版本:
-> 程序使用了Python3.10中的match-case语句
-> 请使用Python3.10版本运行
+> 程序使用了*Python3.10.x*中的match-case语句
+> 请使用*Python3.10.x*版本运行
 #### 主题选择:
 > 在2.9.0之后的版本不支持自定义天气图标 只能使用最新的图标
 #### 配置填写问题:
@@ -54,7 +54,7 @@
 
 ### 网页上查看天气
 - 将所有准备工作完成(能正常运行QWeather.py)
-- 运行QWeather.py
+- 运行`QWeather.py`
 - 打开浏览器输入**127.0.0.1:7898**
 >127.0.0.1可以更改为部署本项目的服务器ip, 7898端口不能被其他程序占用或不开放此端口
 

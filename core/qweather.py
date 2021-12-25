@@ -15,8 +15,7 @@ from core.language import Language
 from core.settings import change_settings
 from core.read_config import read_config
 from core.sendmail import Mail
-from lib.get_host_ip import get_host_ip
-from lib import webservice
+from lib.webservice import accept_requests
 
 
 def check_time():
@@ -116,8 +115,8 @@ def main():
 
     processes.submit(check_time)
     if settings[2]['webservice']:
-        Logger.info(f'{language["webservice_ip"]}:{get_host_ip()}:7898')
-        processes.submit(webservice.process_request())
+        Logger.info(f'{language["webservice_ip"]}:127.0.0.1:7898')
+        processes.submit(accept_requests())
 
     time_count = 0
     while True:

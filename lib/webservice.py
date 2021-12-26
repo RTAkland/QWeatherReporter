@@ -15,7 +15,7 @@ from core.language import Language
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-server.bind(('127.0.0.1', 7898))
+server.bind(('0.0.0.0', 7898))
 server.listen(5)
 
 language = Language()
@@ -305,22 +305,20 @@ def process_requests(c, a):
     try:
         data = str(c.recv(1024)).split(':')[0][6:][:-17]
         html = build_html()
-        if data == '/' or '':  # 判断用户请求的目标是否为根目录, 如果是则返回html; 如果不是则继续判断
-            c.sendto('HTTP1.1/ 200 OK\r\n\r\n'.encode('utf-8'), a)
-            c.sendto(html.encode('utf-8'), a)
+        if data == '/':  # 判断用户请求的目标是否为根目录, 如果是则返回html; 如果不是则继续判断
+            c.send('HTTP/1.1 200 OK\r\n\r\n'.encode('utf-8'))
+            c.send(html.encode('utf-8'))
             Logger.info(f'{language["get_resource"]} {data} {language["get_resource_from"]} {a[0]}:{a[1]}')
-        else:  # 继续判断用户请求的文件是否存在
-            try:
-                with open(f'.{data}', 'rb') as f:
-                    c.sendto('HTTP1.1/ 200 OK\r\n\r\n'.encode('utf-8'), a)
-                    c.sendto(f.read(), a)
-                    Logger.info(f'{language["get_resource"]} {data} {language["get_resource_from"]} {a[0]}:{a[1]}')
-            except FileNotFoundError:
-                c.sendto(f'HTTP1.1/ 404 Not Found\r\n\r\n{html}'.encode('utf-8'), a)
+        try:
+            with open(f'./{data}', 'rb') as f:
+                c.send('HTTP/1.1 200 OK\r\n\r\n'.encode('utf-8'))
+                c.send(f.read())
+                Logger.info(f'{language["get_resource"]} {data} {language["get_resource_from"]} {a[0]}:{a[1]}')
+        except FileNotFoundError:
+            with open('./res/basic-resources/404.html', 'r') as not_found:
+                c.send(f'HTTP/1.1 404 Not Found\r\n\r\n{not_found.read()}'.encode('utf-8'))
     except BrokenPipeError:
         Logger.error(f'{language["connection_speed_too_fast"]}')
-    except IOError:
-        Logger.error(f'{language["an_io_error"]}')
     finally:
         c.close()
         return

@@ -17,6 +17,10 @@ from core.read_config import read_config
 from core.sendmail import Mail
 from lib.webservice import accept_requests
 
+language = Language()
+settings = read_config()
+processes = ProcessPoolExecutor(max_workers=3)
+
 
 def check_time():
     """
@@ -83,6 +87,12 @@ def main():
     主程序
     :return:
     """
+
+    Logger.info(f'{language["statement_1"]}')
+    Logger.info(f'{language["statement_2"]}')
+    Logger.info(f'{language["statement_3"]}')
+    Logger.info(f'{language["statement_4"]}')
+
     parser = argparse.ArgumentParser()
     arg_keywords = ['free', 'dev', 'warning', 'setting']
     parser.add_argument('-t',
@@ -125,14 +135,3 @@ def main():
         if time_count == 600:
             Mail().warning_()
             time_count = 0
-
-
-if __name__ != '__main__':
-    language = Language()
-    settings = read_config()
-    processes = ProcessPoolExecutor(max_workers=3)
-
-    Logger.info(f'{language["statement_1"]}')
-    Logger.info(f'{language["statement_2"]}')
-    Logger.info(f'{language["statement_3"]}')
-    Logger.info(f'{language["statement_4"]}')

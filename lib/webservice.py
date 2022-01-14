@@ -12,6 +12,9 @@ from core.logger import Logger
 from core.read_config import read_config
 from core.information import WeatherInfo
 from core.language import Language
+from lib.buildGUIClass import InsertLog
+
+gui_log = InsertLog()
 
 try:
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -20,6 +23,7 @@ try:
     server.listen(5)
 except OSError as e:
     Logger.critical(e)
+    gui_log.insert(e)
 
 language = Language()
 
@@ -312,16 +316,19 @@ def process_requests(c, a):
             c.send('HTTP/1.1 200 OK\r\n\r\n'.encode('utf-8'))
             c.send(html.encode('utf-8'))
             Logger.info(f'{language["get_resource"]} {data} {language["get_resource_from"]} {a[0]}:{a[1]}')
+            gui_log.insert(f'{language["get_resource"]} {data} {language["get_resource_from"]} {a[0]}:{a[1]}')
         try:
             with open(f'./{data}', 'rb') as f:
                 c.send('HTTP/1.1 200 OK\r\n\r\n'.encode('utf-8'))
                 c.send(f.read())
                 Logger.info(f'{language["get_resource"]} {data} {language["get_resource_from"]} {a[0]}:{a[1]}')
+                gui_log.insert(f'{language["get_resource"]} {data} {language["get_resource_from"]} {a[0]}:{a[1]}')
         except FileNotFoundError:
             with open('./res/basic-resources/404.html', 'r') as not_found:
                 c.send(f'HTTP/1.1 404 Not Found\r\n\r\n{not_found.read()}'.encode('utf-8'))
     except BrokenPipeError:
         Logger.error(f'{language["connection_speed_too_fast"]}')
+        gui_log.insert(f'{language["connection_speed_too_fast"]}')
     finally:
         c.close()
         return

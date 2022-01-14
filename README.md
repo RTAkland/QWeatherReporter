@@ -1,7 +1,7 @@
 <p align="center">
     <a href="https://github.com/MarkusJoe/QWeather">
         <img src="https://img.shields.io/badge/Python-3.10.x-blue.svg" alt="PythonVersion">
-        <img src="https://img.shields.io/badge/release-3.2.3-green.svg" alt="QWeatherVersion">
+        <img src="https://img.shields.io/badge/release-4.0.0-green.svg" alt="QWeatherVersion">
         <img src="https://img.shields.io/badge/LINCESE-Apache2.0-orange.svg" alt="LICENSE">
     </a>
 </p>
@@ -13,9 +13,14 @@
 <i style="text-align: center;"><a href="https://www.qweather.com/">QWeather Official Website</a></i>\
 <i style="text-align: center;"><a href="https://dev.qweather.com/">QWeather Development Platform</a></i>
 
+> GUI问题: 无法填写城市位置, 清手动打开./res/china_city_list.xlsx 进行手动查询  
+> 并填写至`requests-settings` > `location`  
+> `only-view-settings` > `city-name` 也需手动填写 
+
 </div>
 
 <div align="center">
+<b><i>当前分支: GUI, 为界面分支, 仍存在bug以及一些问题<br></i></b>
 <b><i>当前分支版本为重构后的版本重构前版本请在before分支中查看<br>(重构前版本不再更新,最新版本为v2.9.0)</i></b><br>
 <b><i><a href="https://markusjoe.github.io/" target="_blank">点击跳转到帮助文档</a></i></b>
 </div>
@@ -37,6 +42,7 @@
 - [x] 在网页上快速查看天气
 - [x] 在邮件html内附带一句一言 
 - [ ] ~~推送到QQ(咕咕咕)~~
+- [x] GUI界面 (无法填写城市位置, 清手动打开./res/china_city_list.xlsx 进行手动查询)
 
 ### 问题汇总
 #### Python 版本:

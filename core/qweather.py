@@ -25,10 +25,6 @@ processes = ProcessPoolExecutor(max_workers=3)
 gui_log = InsertLog()
 
 
-def get_pid():
-    return os.getpid()
-
-
 def check_time():
     """
     通过多进程让函数和主程序并行,

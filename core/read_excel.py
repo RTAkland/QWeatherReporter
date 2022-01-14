@@ -8,6 +8,9 @@
 import pandas
 from core.logger import Logger
 from core.language import Language
+from lib.buildGUIClass import InsertLog
+
+gui_log = InsertLog()
 
 
 def read_excel(kw: str):
@@ -21,12 +24,14 @@ def read_excel(kw: str):
     index_count = 0
     city_list = []
     Logger.info(f'[Search]{language["reading_the_file"]}')
+    gui_log.insert(f'[Search]{language["reading_the_file"]}')
     df = pandas.read_excel(f'./res/china_city_list.xlsx')
     pandas.set_option('max_rows', None)  # 读取xlsx文件不折叠
     data_records = df.to_dict(orient='split')
     for i in data_records['data']:
         if kw in str(i):
             Logger.info(f' {index_count} | {i[2]}-{i[4]}-{i[6]}')
+            gui_log.insert(f' {index_count} | {i[2]}-{i[4]}-{i[6]}')
             city = [index_count, i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9]]
             index_count += 1
             city_list.append(city)

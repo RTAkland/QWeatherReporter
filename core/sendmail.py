@@ -17,6 +17,9 @@ from core.language import Language
 from core.information import WeatherInfo
 from core.read_config import read_config
 from lib.hitokoto import hitokoto
+from lib.buildGUIClass import InsertLog
+
+gui_log = InsertLog()
 
 
 class Mail:
@@ -209,8 +212,10 @@ class Mail:
             self.smtp.login(self.sender, self.password)  # 登录
             self.smtp.sendmail(self.sender, self.receiver, self.message.as_string())  # 发送
             Logger.info(f'{self.language["mail_succeed"]}')
+            gui_log.insert(f'{self.language["mail_succeed"]}')
         except smtplib.SMTPException as e:  # 处理错误
             Logger.critical(f'{self.language["mail_error"]}: {e}')
+            gui_log.insert(f'{self.language["mail_error"]}: {e}')
             sys.exit(1)
 
     def free_version(self):
@@ -356,8 +361,10 @@ class Mail:
             self.smtp.login(self.sender, self.password)  # 登录
             self.smtp.sendmail(self.sender, self.receiver, self.message.as_string())  # 发送
             Logger.info(f'{self.language["mail_succeed"]}')
+            Logger.info(f'{self.language["mail_succeed"]}')
         except smtplib.SMTPException as e:  # 处理错误
             Logger.critical(f'{self.language["mail_error"]}: {e}')
+            gui_log.insert(f'{self.language["mail_error"]}: {e}')
             sys.exit(1)
 
     def warning_(self):
@@ -379,11 +386,14 @@ class Mail:
             case 'update':
                 status = '预警更新'
                 Logger.info(f'{self.language["new_warning"]}')
+                gui_log.insert(f'{self.language["new_warning"]}')
             case 'active':
                 status = '已有灾害'
                 Logger.info(f'{self.language["warning_updated"]}')
+                gui_log.insert(f'{self.language["warning_updated"]}')
             case 'cancel':
                 Logger.info(f'{self.language["warning_canceled"]}')
+                gui_log.insert(f'{self.language["warning_canceled"]}')
 
         mail_html = f"""
                     <!DOCTYPE html>
@@ -434,6 +444,8 @@ class Mail:
                 self.smtp.login(self.sender, self.password)  # 登录
                 self.smtp.sendmail(self.sender, self.receiver, self.message.as_string())  # 发送
                 Logger.info(f'{self.language["mail_succeed"]}')
+                gui_log.insert(f'{self.language["mail_succeed"]}')
         except smtplib.SMTPException as e:  # 处理错误
             Logger.critical(f'{self.language["mail_error"]}: {e}')
+            gui_log.insert(f'{self.language["mail_error"]}: {e}')
             sys.exit(1)

@@ -6,6 +6,7 @@
 # @File Name: qweather.py
 
 
+import os
 import sys
 import time
 import argparse
@@ -16,10 +17,16 @@ from core.settings import change_settings
 from core.read_config import read_config
 from core.sendmail import Mail
 from lib.webservice import accept_requests
+from lib.buildGUIClass import InsertLog
 
 language = Language()
 settings = read_config()
 processes = ProcessPoolExecutor(max_workers=3)
+gui_log = InsertLog()
+
+
+def get_pid():
+    return os.getpid()
 
 
 def check_time():
@@ -38,7 +45,10 @@ def check_time():
                 if local_time in time_list:
                     Mail().dev_version()
                     Logger.info(f'{language["mail_succeed"]}')
+                    gui_log.insert(f'{language["wait_seconds"]}')
                     Logger.info(f'{language["wait_seconds"]}')
+                    gui_log.insert(f'{language["mail_succeed"]}')
+
                     time.sleep(60)
         case 'free':
             while True:
@@ -47,7 +57,9 @@ def check_time():
                 if local_time in time_list:
                     Mail().free_version()
                     Logger.info(f'{language["mail_succeed"]}')
+                    gui_log.insert(f'{language["wait_seconds"]}')
                     Logger.info(f'{language["wait_seconds"]}')
+                    gui_log.insert(f'{language["mail_succeed"]}')
                     time.sleep(60)
 
 
@@ -89,9 +101,13 @@ def main():
     """
 
     Logger.info(f'{language["statement_1"]}')
+    gui_log.insert(f'{language["statement_1"]}')
     Logger.info(f'{language["statement_2"]}')
+    gui_log.insert(f'{language["statement_2"]}')
     Logger.info(f'{language["statement_3"]}')
+    gui_log.insert(f'{language["statement_3"]}')
     Logger.info(f'{language["statement_4"]}')
+    gui_log.insert(f'{language["statement_4"]}')
 
     parser = argparse.ArgumentParser()
     arg_keywords = ['free', 'dev', 'warning', 'setting']
@@ -105,18 +121,22 @@ def main():
         case 'free':
             Mail().free_version()
             Logger.debug(f'{language["debug_done"]}')
+            gui_log.insert(f'{language["debug_done"]}')
             sys.exit(0)
         case 'dev':
             Mail().dev_version()
             Logger.debug(f'{language["debug_done"]}')
+            gui_log.insert(f'{language["debug_done"]}')
             sys.exit(0)
         case 'warning':
             Mail().warning_()
             Logger.debug(f'{language["debug_done"]}')
+            gui_log.insert(f'{language["debug_done"]}')
             sys.exit(0)
         case 'setting':
             change_settings()
             Logger.debug(f'{language["debug_done"]}')
+            gui_log.insert(f'{language["debug_done"]}')
         case _:
             if check_config():
                 setting()
@@ -126,7 +146,8 @@ def main():
     processes.submit(check_time)
     if settings[2]['webservice']:
         Logger.info(f'{language["webservice_ip"]}:127.0.0.1:7898')
-        processes.submit(accept_requests())
+        gui_log.insert(f'{language["webservice_ip"]}:127.0.0.1:7898')
+        processes.submit(accept_requests)
 
     time_count = 0
     while True:

@@ -11,7 +11,13 @@ import getpass
 from core.logger import Logger
 from core.language import Language
 from core.read_excel import read_excel
+from core.read_config import read_config
 from ruamel.yaml import YAML
+from lib.buildGUIClass import InsertLog
+from lib.buildGUIClass import var_command
+
+gui_log = InsertLog()
+gui = read_config()[2]['enable-GUI']
 
 
 def change_settings():
@@ -22,8 +28,11 @@ def change_settings():
     language = Language()
 
     Logger.info(f'[Modify]{language["change_setting"]}')
+    gui_log.insert(f'[Modify]{language["change_setting"]}')
     Logger.info(f'[Modify]{language["fill_the_config"]}')
+    gui_log.insert(f'[Modify]{language["fill_the_config"]}')
     Logger.info(f'[Modify]{language["input_a_city_name"]}')
+    gui_log.insert(f'[Modify]{language["input_a_city_name"]}')
     while True:
         time.sleep(0.3)
         city_name = input('-->')
@@ -38,17 +47,24 @@ def change_settings():
                 break
     searched_city = read_excel(city_name)
     Logger.info(f'[Modify]{language["user_input"]}:[{city_name}]')
+    gui_log.insert(f'[Modify]{language["user_input"]}:[{city_name}]')
     Logger.info(f'[Modify]{language["select_a_index"]}')
+    gui_log.insert(f'[Modify]{language["select_a_index"]}')
     if not searched_city:
         Logger.error(f'[Modify]{language["no_result"]}')
+        gui_log.insert(f'[Modify]{language["no_result"]}')
         sys.exit(1)
     time.sleep(0.3)
     while True:
         try:
             time.sleep(0.3)
+            # if not gui:
             user_input = input('-->')
+            # else:
+            #     user_input = var_command.get()
             if user_input == 'q':
                 Logger.info(f'[Exit]{language["exit"]}')
+                gui_log.insert(f'[Exit]{language["exit"]}')
                 sys.exit(1)
             index = searched_city[int(user_input)]
             with open('./config.yml', 'r', encoding='utf-8') as of:
@@ -60,11 +76,15 @@ def change_settings():
             with open('./config.yml', 'w', encoding='utf-8') as wf:
                 YAML().dump(data, wf)
             Logger.info(f'[Write]{language["write_successfully"]}:config.yml')
+            gui_log.insert(f'[Write]{language["write_successfully"]}:config.yml')
             break
         except (IndexError, ValueError) as e:
             Logger.info(e)
+            gui_log.insert(e)
             Logger.error(f'[Write]{language["input_type_error"]}')
+            gui_log.insert(f'[Write]{language["input_type_error"]}')
             continue
         finally:
             Logger.info(f'[Exit]{language["exit"]}')
+            gui_log.insert(f'[Exit]{language["exit"]}')
             sys.exit(0)

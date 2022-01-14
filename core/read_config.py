@@ -14,7 +14,7 @@ def read_config():
     :return: mail-settings, request-settings, client-settings, only-view-settings --> 0, 1, 2, 3
     """
     config_file = 'config.yml'
-    with open(f'./{config_file}', 'r') as conf:
+    with open(f'./{config_file}', 'r', encoding='utf-8') as conf:
         config = YAML().load(conf.read())
         mail_settings = config['mail-settings']
         request_settings = config['request-settings']

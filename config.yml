@@ -110,6 +110,9 @@ client-settings:
  # 可选: "True" "False"
   SSL: True
 
+# [必填/只能一个] enable GUI or disable GUI
+  enable-GUI: True
+
 
 # [标识/不填] 仅作用户读取标识
 only-view-settings:
